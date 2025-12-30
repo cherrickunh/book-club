@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Book Club Interest Ranking</title>
+  <title>February Book Club Nominations</title>
 
   <style>
     :root { --bg:#0b0c10; --card:#12131a; --muted:#9aa3b2; --text:#eef2ff; --border:#26293a; }
-    body {
+    body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background: linear-gradient(180deg,#0b0c10,#0b0c10 60%,#0e1020);
       color:var(--text);
     }
-    .wrap { max-width: 900px; margin: 0 auto; padding: 28px 16px 48px; }
-    h1 { margin: 0 0 6px; font-size: 28px; }
-    p { margin: 8px 0; color: var(--muted); line-height: 1.45; }
-    .card {
+    .wrap{ max-width: 900px; margin: 0 auto; padding: 28px 16px 48px; }
+    h1{ margin: 0 0 6px; font-size: 28px; }
+    p{ margin: 8px 0; color: var(--muted); line-height: 1.45; }
+    .card{
       background: rgba(18,19,26,.85);
       border: 1px solid var(--border);
       border-radius: 16px;
@@ -24,16 +24,16 @@
       box-shadow: 0 10px 30px rgba(0,0,0,.25);
     }
 
-    .list { margin-top: 12px; padding: 0; list-style: none; }
-    .item {
+    .list{ margin-top: 12px; padding: 0; list-style: none; }
+    .item{
       display:flex; align-items:center; gap: 12px;
       background:#0f1020; border:1px solid var(--border);
       border-radius:14px; padding:12px; margin:10px 0;
       cursor:grab; user-select:none;
     }
-    .item:active { cursor:grabbing; }
-    .rank { width:28px; text-align:right; color:var(--muted); font-variant-numeric:tabular-nums; }
-    .handle {
+    .item:active{ cursor:grabbing; }
+    .rank{ width:28px; text-align:right; color:var(--muted); font-variant-numeric:tabular-nums; }
+    .handle{
       width:32px; height:32px;
       border-radius:10px; border:1px solid var(--border);
       display:grid; place-items:center; color:var(--muted);
@@ -41,17 +41,17 @@
     }
 
     /* Mobile-safe wrapping in flex layout */
-    .title { flex:1; min-width:0; }
-    .title strong { display:block; font-size:15px; font-weight:650; overflow-wrap:anywhere; }
-    .title span { display:block; font-size:13px; color:var(--muted); margin-top:2px; overflow-wrap:anywhere; }
+    .title{ flex:1; min-width:0; }
+    .title strong{ display:block; font-size:15px; font-weight:650; overflow-wrap:anywhere; }
+    .title span{ display:block; font-size:13px; color:var(--muted); margin-top:2px; overflow-wrap:anywhere; }
 
-    .links {
+    .links{
       margin-top: 8px;
       display:flex;
       gap:8px;
       flex-wrap:wrap;
     }
-    .chip {
+    .chip{
       display:inline-block;
       font-size:12px;
       color:#a5b4fc;
@@ -65,35 +65,35 @@
       overflow-wrap:anywhere;
       -webkit-tap-highlight-color: transparent;
     }
-    .chip:hover { text-decoration: underline; }
+    .chip:hover{ text-decoration: underline; }
 
-    .ghost { opacity:.55; }
+    .ghost{ opacity:.55; }
 
-    .actions { margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; }
-    button {
+    .actions{ margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; }
+    button{
       border:1px solid var(--border);
       background:#15162a; color:var(--text);
       padding:10px 14px; border-radius:12px;
       cursor:pointer; font-weight:600;
     }
-    button.primary {
+    button.primary{
       background:linear-gradient(135deg,#7c3aed,#6366f1);
       border-color:#7c3aed;
     }
-    button:disabled { opacity:.55; cursor:not-allowed; }
+    button:disabled{ opacity:.55; cursor:not-allowed; }
 
-    .status { margin-top:12px; font-size:13px; color:var(--muted); }
-    pre {
+    .status{ margin-top:12px; font-size:13px; color:var(--muted); }
+    pre{
       display:none; margin-top:12px;
       background:#0f1020; border:1px solid var(--border);
       border-radius:12px; padding:12px;
       overflow:auto; font-size:12px;
     }
 
-    @media (max-width: 520px) {
-      .item { padding: 12px 10px; }
-      .handle { width: 34px; height: 34px; }
-      .chip { padding: 7px 12px; }
+    @media (max-width: 520px){
+      .item{ padding: 12px 10px; }
+      .handle{ width: 34px; height: 34px; }
+      .chip{ padding: 7px 12px; }
     }
   </style>
 </head>
@@ -113,7 +113,8 @@
           <strong>American Dirt</strong><span>Jeanine Cummins</span>
           <div class="links">
             <a class="chip" href="https://www.goodreads.com/book/show/45046527-american-dirt" target="_blank" rel="noopener noreferrer">Goodreads</a>
-            <a class="chip" href="https://www.nytimes.com/2020/01/19/books/review/american-dirt-jeanine-cummins.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+            <a class="chip" href="https://www.nytimes.com/2020/01/19/books/review/american-dirt-jeanine-cummins.html" target="_blank" rel="noopener noreferrer">NYT</a>
+            <a class="chip" href="https://a.co/d/6x8cZTP" target="_blank" rel="noopener noreferrer">Amazon</a>
           </div>
         </div>
       </li>
@@ -136,7 +137,7 @@
           <strong>Bury Our Bones in the Midnight Soil</strong><span>V. E. Schwab</span>
           <div class="links">
             <a class="chip" href="https://www.goodreads.com/book/show/215020997-bury-our-bones-in-the-midnight-soil" target="_blank" rel="noopener noreferrer">Goodreads</a>
-            <a class="chip" href="https://www.nytimes.com/2025/06/10/books/review/bury-our-bones-in-the-midnight-soil-by-v-e-schwab.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+            <a class="chip" href="https://www.nytimes.com/2025/06/10/books/review/bury-our-bones-in-the-midnight-soil-by-v-e-schwab.html" target="_blank" rel="noopener noreferrer">NYT</a>
           </div>
         </div>
       </li>
@@ -148,7 +149,7 @@
           <strong>Cutting for Stone</strong><span>Abraham Verghese</span>
           <div class="links">
             <a class="chip" href="https://www.goodreads.com/book/show/3591262" target="_blank" rel="noopener noreferrer">Goodreads</a>
-            <a class="chip" href="https://www.nytimes.com/2009/02/08/books/review/Wagner-t.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+            <a class="chip" href="https://www.nytimes.com/2009/02/08/books/review/Wagner-t.html" target="_blank" rel="noopener noreferrer">NYT</a>
           </div>
         </div>
       </li>
@@ -171,7 +172,7 @@
           <strong>The God Or The Woods</strong><span>Liz Moore</span>
           <div class="links">
             <a class="chip" href="https://www.goodreads.com/book/show/199698485-the-god-of-the-woods" target="_blank" rel="noopener noreferrer">Goodreads</a>
-            <a class="chip" href="https://www.nytimes.com/2024/07/02/books/review/the-god-of-the-woods-liz-moore.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+            <a class="chip" href="https://www.nytimes.com/2024/07/02/books/review/the-god-of-the-woods-liz-moore.html" target="_blank" rel="noopener noreferrer">NYT</a>
           </div>
         </div>
       </li>
@@ -183,7 +184,7 @@
           <strong>How to Dodge a Cannonball</strong><span>Dennard Dayle</span>
           <div class="links">
             <a class="chip" href="https://www.goodreads.com/book/show/217388187-how-to-dodge-a-cannonball" target="_blank" rel="noopener noreferrer">Goodreads</a>
-            <a class="chip" href="https://www.nytimes.com/2025/06/16/books/review/how-to-dodge-a-cannonball-dennard-dayle.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+            <a class="chip" href="https://www.nytimes.com/2025/06/16/books/review/how-to-dodge-a-cannonball-dennard-dayle.html" target="_blank" rel="noopener noreferrer">NYT</a>
           </div>
         </div>
       </li>
@@ -195,7 +196,7 @@
           <strong>How to Say Babylon</strong><span>Safiya Sinclair</span>
           <div class="links">
             <a class="chip" href="https://www.goodreads.com/book/show/62919742-how-to-say-babylon" target="_blank" rel="noopener noreferrer">Goodreads</a>
-            <a class="chip" href="https://www.nytimes.com/2023/09/29/books/review/how-to-say-babylon-safiya-sinclair.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+            <a class="chip" href="https://www.nytimes.com/2023/09/29/books/review/how-to-say-babylon-safiya-sinclair.html" target="_blank" rel="noopener noreferrer">NYT</a>
           </div>
         </div>
       </li>
@@ -218,7 +219,7 @@
           <strong>Isola</strong><span>Allegra Goodman</span>
           <div class="links">
             <a class="chip" href="https://www.goodreads.com/book/show/212806636-isola" target="_blank" rel="noopener noreferrer">Goodreads</a>
-            <a class="chip" href="https://www.nytimes.com/2025/02/01/books/review/allegra-goodman-isola.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+            <a class="chip" href="https://www.nytimes.com/2025/02/01/books/review/allegra-goodman-isola.html" target="_blank" rel="noopener noreferrer">NYT</a>
           </div>
         </div>
       </li>
@@ -241,7 +242,7 @@
           <strong>North Woods</strong><span>Daniel Mason</span>
           <div class="links">
             <a class="chip" href="https://www.goodreads.com/book/show/75569082" target="_blank" rel="noopener noreferrer">Goodreads</a>
-            <a class="chip" href="https://www.nytimes.com/2023/09/19/books/review/daniel-mason-north-woods.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+            <a class="chip" href="https://www.nytimes.com/2023/09/19/books/review/daniel-mason-north-woods.html" target="_blank" rel="noopener noreferrer">NYT</a>
           </div>
         </div>
       </li>
@@ -253,7 +254,7 @@
           <strong>Run for the Hills</strong><span>Kevin Wilson</span>
           <div class="links">
             <a class="chip" href="https://www.goodreads.com/book/show/218671843-run-for-the-hills" target="_blank" rel="noopener noreferrer">Goodreads</a>
-            <a class="chip" href="https://www.nytimes.com/2025/05/13/books/review/kevin-wilson-run-for-the-hills.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+            <a class="chip" href="https://www.nytimes.com/2025/05/13/books/review/kevin-wilson-run-for-the-hills.html" target="_blank" rel="noopener noreferrer">NYT</a>
           </div>
         </div>
       </li>
@@ -265,7 +266,7 @@
           <strong>The Stone Yard Devotional</strong><span>Charlotte Wood</span>
           <div class="links">
             <a class="chip" href="https://www.goodreads.com/book/show/168632462-stone-yard-devotional" target="_blank" rel="noopener noreferrer">Goodreads</a>
-            <a class="chip" href="https://www.nytimes.com/2025/02/10/books/review/stone-yard-devotional-charlotte-wood.html?smid=nytcore-android-share" target="_blank" rel="noopener noreferrer">NYT Review</a>
+            <a class="chip" href="https://www.nytimes.com/2025/02/10/books/review/stone-yard-devotional-charlotte-wood.html?smid=nytcore-android-share" target="_blank" rel="noopener noreferrer">NYT</a>
           </div>
         </div>
       </li>
@@ -310,7 +311,8 @@
           <strong>Victorian Psycho</strong><span>Virginia Feito</span>
           <div class="links">
             <a class="chip" href="https://www.goodreads.com/book/show/213395480-victorian-psycho" target="_blank" rel="noopener noreferrer">Goodreads</a>
-            <a class="chip" href="https://www.nytimes.com/2025/02/01/books/review/victorian-psycho-virginia-feito.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+            <a class="chip" href="https://www.nytimes.com/2025/02/01/books/review/victorian-psycho-virginia-feito.html" target="_blank" rel="noopener noreferrer">NYT</a>
+            <a class="chip" href="https://a.co/d/013pHNL" target="_blank" rel="noopener noreferrer">Amazon</a>
           </div>
         </div>
       </li>
@@ -337,15 +339,19 @@
   const copyBtn = document.getElementById('copyBtn');
   const resetBtn = document.getElementById('resetBtn');
 
-  const STORAGE_KEY = 'bookclub_ranking_final_v1_links_nyt';
+  const STORAGE_KEY = 'bookclub_ranking_final_v1_links';
   let dragSrc = null;
   const originalOrder = Array.from(list.children);
 
-  function items() { return Array.from(list.children); }
-  function updateRanks() {
+  function items(){ return Array.from(list.children); }
+  function updateRanks(){
     items().forEach((li, i) => li.querySelector('.rank').textContent = i + 1);
   }
-  function serialize() {
+
+  function serialize(){
+    const getLink = (li, label) =>
+      Array.from(li.querySelectorAll('.links a')).find(a => a.textContent.trim() === label)?.href || null;
+
     return {
       submitted_at: new Date().toISOString(),
       ranking: items().map((li, i) => ({
@@ -353,24 +359,27 @@
         id: li.dataset.id,
         title: li.querySelector('strong').textContent,
         author: li.querySelector('span').textContent,
-        goodreads: li.querySelector('.links a[href*="goodreads.com"]')?.href || null,
-        nytimes: li.querySelector('.links a[href*="nytimes.com"]')?.href || null
+        goodreads: getLink(li, 'Goodreads'),
+        nytimes: getLink(li, 'NYT'),
+        amazon: getLink(li, 'Amazon')
       }))
     };
   }
 
-  function wire(li) {
+  function wire(li){
     li.addEventListener('dragstart', e => {
       dragSrc = li;
       li.classList.add('ghost');
       e.dataTransfer.setData('text/plain', li.dataset.id);
       e.dataTransfer.effectAllowed = 'move';
     });
+
     li.addEventListener('dragend', () => {
       li.classList.remove('ghost');
       dragSrc = null;
       updateRanks();
     });
+
     li.addEventListener('dragover', e => {
       e.preventDefault();
       if (!dragSrc || dragSrc === li) return;
