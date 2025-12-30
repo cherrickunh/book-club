@@ -6,7 +6,7 @@
   <title>Book Club Interest Ranking</title>
 
   <style>
-    :root { --bg:#0b0c10; --card:#12131a; --muted:#9aa3b2; --text:#eef2ff; --accent:#7c3aed; --border:#26293a; }
+    :root { --card:#12131a; --muted:#9aa3b2; --text:#eef2ff; --border:#26293a; }
     body {
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -15,7 +15,7 @@
     }
     .wrap { max-width: 900px; margin: 0 auto; padding: 28px 16px 48px; }
     h1 { margin: 0 0 6px; font-size: 28px; }
-    p { margin: 8px 0; color: var(--muted); }
+    p { margin: 8px 0; color: var(--muted); line-height: 1.45; }
     .card {
       background: rgba(18,19,26,.85);
       border: 1px solid var(--border);
@@ -38,18 +38,19 @@
       user-select:none;
     }
     .item:active { cursor: grabbing; }
-    .rank { width: 26px; text-align:right; color: var(--muted); }
+    .rank { width: 26px; text-align:right; color: var(--muted); font-variant-numeric: tabular-nums; }
     .handle {
       width: 32px; height: 32px;
       border-radius: 10px;
       border: 1px solid var(--border);
       display:grid; place-items:center;
       color: var(--muted);
+      flex: 0 0 auto;
     }
-    .title { flex: 1; }
+    .title { flex: 1; min-width: 0; }
     .title strong { display:block; font-size: 15px; font-weight: 650; }
-    .title span { display:block; font-size: 13px; color: var(--muted); }
-    .title a { color: #a5b4fc; font-size: 12px; text-decoration: none; }
+    .title span { display:block; font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .title a { display:inline-block; margin-top: 6px; color: #a5b4fc; font-size: 12px; text-decoration: none; }
     .title a:hover { text-decoration: underline; }
 
     .ghost { opacity:.55; }
@@ -94,67 +95,232 @@
 
       <li class="item" draggable="true" data-id="isola">
         <div class="rank">1</div><div class="handle">≡</div>
-        <div class="title">
-          <strong>Isola</strong>
-          <span>Allegra Goodman</span>
-        </div>
+        <div class="title"><strong>Isola</strong><span>Allegra Goodman</span></div>
       </li>
 
-      <li class="item" draggable="true" data-id="run-hills">
+      <li class="item" draggable="true" data-id="run-for-the-hills">
         <div class="rank">2</div><div class="handle">≡</div>
-        <div class="title">
-          <strong>Run for the Hills</strong>
-          <span>Kevin Wilson</span>
-        </div>
+        <div class="title"><strong>Run for the Hills</strong><span>Kevin Wilson</span></div>
       </li>
 
-      <li class="item" draggable="true" data-id="dodge-cannonball">
+      <li class="item" draggable="true" data-id="how-to-dodge-a-cannonball">
         <div class="rank">3</div><div class="handle">≡</div>
-        <div class="title">
-          <strong>How to Dodge a Cannonball</strong>
-          <span>Dennard Dayle</span>
-        </div>
+        <div class="title"><strong>How to Dodge a Cannonball</strong><span>Dennard Dayle</span></div>
       </li>
 
-      <li class="item" draggable="true" data-id="eyes-gaza">
+      <li class="item" draggable="true" data-id="the-eyes-of-gaza">
         <div class="rank">4</div><div class="handle">≡</div>
         <div class="title">
-          <strong>The Eyes of Gaza</strong>
-          <span>Plestia Alaqad</span>
-          <a href="https://www.goodreads.com/book/show/219223024" target="_blank">Goodreads</a>
+          <strong>The Eyes of Gaza</strong><span>Plestia Alaqad</span>
+          <a href="https://www.goodreads.com/book/show/219223024" target="_blank" rel="noopener">Goodreads</a>
         </div>
       </li>
 
-      <li class="item" draggable="true" data-id="never-known-men">
+      <li class="item" draggable="true" data-id="i-who-have-never-known-men">
         <div class="rank">5</div><div class="handle">≡</div>
         <div class="title">
-          <strong>I Who Have Never Known Men</strong>
-          <span>Jacqueline Harpman</span>
-          <a href="https://www.goodreads.com/book/show/60811826" target="_blank">Goodreads</a>
+          <strong>I Who Have Never Known Men</strong><span>Jacqueline Harpman</span>
+          <a href="https://www.goodreads.com/book/show/60811826" target="_blank" rel="noopener">Goodreads</a>
         </div>
       </li>
 
-      <li class="item" draggable="true" data-id="theo-golden">
+      <li class="item" draggable="true" data-id="theo-of-golden-allen-levi">
         <div class="rank">6</div><div class="handle">≡</div>
         <div class="title">
-          <strong>Theo of Golden</strong>
-          <span>Allen Levi</span>
-          <a href="https://www.goodreads.com/book/show/242376245" target="_blank">Goodreads</a>
+          <strong>Theo of Golden</strong><span>Allen Levi</span>
+          <a href="https://www.goodreads.com/book/show/242376245" target="_blank" rel="noopener">Goodreads</a>
         </div>
       </li>
 
-      <li class="item" draggable="true" data-id="say-babylon">
+      <!-- Added back per your note about missing books -->
+      <li class="item" draggable="true" data-id="theo-of-golden-levi">
         <div class="rank">7</div><div class="handle">≡</div>
         <div class="title">
-          <strong>How to Say Babylon</strong>
-          <span>Sofia Sinclair</span>
-          <a href="https://www.goodreads.com/book/show/62919742" target="_blank">Goodreads</a>
+          <strong>Theo of Golden</strong><span>Levi</span>
+          <a href="https://www.goodreads.com/book/show/242376245" target="_blank" rel="noopener">Goodreads</a>
         </div>
       </li>
 
-      <li class="item" draggable="true" data-id="cutting-stone">
+      <li class="item" draggable="true" data-id="how-to-say-babylon">
         <div class="rank">8</div><div class="handle">≡</div>
         <div class="title">
-          <strong>Cutting for Stone</strong>
-          <span>Abraham Verghese</span>
-          <a href="https://www.goodreads.com/book/show/3591262" target="_blank"_
+          <strong>How to Say Babylon</strong><span>Sofia Sinclair</span>
+          <a href="https://www.goodreads.com/book/show/62919742" target="_blank" rel="noopener">Goodreads</a>
+        </div>
+      </li>
+
+      <li class="item" draggable="true" data-id="cutting-for-stone">
+        <div class="rank">9</div><div class="handle">≡</div>
+        <div class="title">
+          <strong>Cutting for Stone</strong><span>Abraham Verghese</span>
+          <a href="https://www.goodreads.com/book/show/3591262" target="_blank" rel="noopener">Goodreads</a>
+        </div>
+      </li>
+
+      <li class="item" draggable="true" data-id="north-woods">
+        <div class="rank">10</div><div class="handle">≡</div>
+        <div class="title">
+          <strong>North Woods</strong><span>Daniel Mason</span>
+          <a href="https://www.goodreads.com/book/show/75569082" target="_blank" rel="noopener">Goodreads</a>
+        </div>
+      </li>
+
+      <li class="item" draggable="true" data-id="the-sun-does-shine">
+        <div class="rank">11</div><div class="handle">≡</div>
+        <div class="title">
+          <strong>The Sun Does Shine</strong><span>Anthony Ray Hinton</span>
+          <a href="https://www.goodreads.com/book/show/34964905" target="_blank" rel="noopener">Goodreads</a>
+        </div>
+      </li>
+
+      <li class="item" draggable="true" data-id="twenty-years-later">
+        <div class="rank">12</div><div class="handle">≡</div>
+        <div class="title">
+          <strong>Twenty Years Later</strong><span>Charlie Donlea</span>
+          <a href="https://www.goodreads.com/book/show/57645345" target="_blank" rel="noopener">Goodreads</a>
+        </div>
+      </li>
+
+      <li class="item" draggable="true" data-id="victorian-psycho">
+        <div class="rank">13</div><div class="handle">≡</div>
+        <div class="title">
+          <strong>Victorian Psycho</strong><span>Virginia Feito</span>
+          <a href="https://a.co/d/013pHNL" target="_blank" rel="noopener">Amazon</a>
+        </div>
+      </li>
+
+      <li class="item" draggable="true" data-id="stone-yard-devotional">
+        <div class="rank">14</div><div class="handle">≡</div>
+        <div class="title">
+          <strong>The Stone Yard Devotional</strong><span>Charlotte Wood</span>
+          <a href="https://www.nytimes.com/2025/02/10/books/review/stone-yard-devotional-charlotte-wood.html" target="_blank" rel="noopener">NYT Review</a>
+        </div>
+      </li>
+
+      <li class="item" draggable="true" data-id="american-dirt">
+        <div class="rank">15</div><div class="handle">≡</div>
+        <div class="title">
+          <strong>American Dirt</strong><span>Jeanine Cummins</span>
+          <a href="https://a.co/d/6x8cZTP" target="_blank" rel="noopener">Amazon</a>
+        </div>
+      </li>
+
+      <li class="item" draggable="true" data-id="bury-our-bones-in-the-midnight-soil">
+        <div class="rank">16</div><div class="handle">≡</div>
+        <div class="title"><strong>Bury Our Bones in the Midnight Soil</strong><span>V. E. Schwab</span></div>
+      </li>
+
+      <li class="item" draggable="true" data-id="the-god-or-the-woods">
+        <div class="rank">17</div><div class="handle">≡</div>
+        <div class="title"><strong>The God Or The Woods</strong><span>Liz Moore</span></div>
+      </li>
+
+      <li class="item" draggable="true" data-id="beautiful-ugly">
+        <div class="rank">18</div><div class="handle">≡</div>
+        <div class="title"><strong>Beautiful Ugly</strong><span>Alice Feeney</span></div>
+      </li>
+
+      <li class="item" draggable="true" data-id="the-mad-wife">
+        <div class="rank">19</div><div class="handle">≡</div>
+        <div class="title"><strong>The Mad Wife</strong><span>Meagan Church</span></div>
+      </li>
+
+    </ol>
+
+    <div class="actions">
+      <button class="primary" id="submitBtn">Submit</button>
+      <button id="copyBtn" disabled>Copy submission JSON</button>
+      <button id="resetBtn">Reset order</button>
+    </div>
+
+    <div class="status" id="status">Not submitted yet.</div>
+    <pre id="output"></pre>
+  </div>
+</div>
+
+<script>
+(() => {
+  const list = document.getElementById('rankList');
+  const statusEl = document.getElementById('status');
+  const outEl = document.getElementById('output');
+  const submitBtn = document.getElementById('submitBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  const STORAGE_KEY = 'bookclub_ranking_v1';
+  let dragSrc = null;
+  const originalOrder = Array.from(list.children);
+
+  function items() { return Array.from(list.children); }
+
+  function updateRanks() {
+    items().forEach((li, i) => li.querySelector('.rank').textContent = i + 1);
+  }
+
+  function serialize() {
+    return {
+      submitted_at: new Date().toISOString(),
+      ranking: items().map((li, i) => ({
+        rank: i + 1,
+        id: li.dataset.id,
+        title: li.querySelector('strong').textContent,
+        author: li.querySelector('span').textContent
+      }))
+    };
+  }
+
+  function wire(li) {
+    li.addEventListener('dragstart', e => {
+      dragSrc = li;
+      li.classList.add('ghost');
+      e.dataTransfer.setData('text/plain', li.dataset.id || '');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+
+    li.addEventListener('dragend', () => {
+      li.classList.remove('ghost');
+      dragSrc = null;
+      updateRanks();
+    });
+
+    li.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (!dragSrc || dragSrc === li) return;
+
+      const rect = li.getBoundingClientRect();
+      const before = (e.clientY - rect.top) < rect.height / 2;
+      list.insertBefore(dragSrc, before ? li : li.nextSibling);
+    });
+  }
+
+  items().forEach(wire);
+  updateRanks();
+
+  submitBtn.onclick = () => {
+    const data = serialize();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    outEl.style.display = 'block';
+    outEl.textContent = JSON.stringify(data, null, 2);
+    statusEl.textContent = 'Submission saved on this device.';
+    copyBtn.disabled = false;
+  };
+
+  copyBtn.onclick = async () => {
+    const text = outEl.textContent || '';
+    try {
+      await navigator.clipboard.writeText(text);
+      statusEl.textContent = 'Submission copied to clipboard.';
+    } catch {
+      statusEl.textContent = 'Clipboard copy blocked. Please manually copy the JSON shown below.';
+    }
+  };
+
+  resetBtn.onclick = () => {
+    originalOrder.forEach(li => list.appendChild(li));
+    updateRanks();
+    statusEl.textContent = 'Order reset.';
+  };
+})();
+</script>
+</body>
+</html>
