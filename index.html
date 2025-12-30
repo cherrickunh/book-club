@@ -15,7 +15,7 @@
     }
     .wrap { max-width: 900px; margin: 0 auto; padding: 28px 16px 48px; }
     h1 { margin: 0 0 6px; font-size: 28px; }
-    p { margin: 8px 0; color: var(--muted); }
+    p { margin: 8px 0; color: var(--muted); line-height: 1.45; }
     .card {
       background: rgba(18,19,26,.85);
       border: 1px solid var(--border);
@@ -40,21 +40,19 @@
       flex:0 0 auto;
     }
 
-    /* Critical for mobile: allow flex child to shrink and wrap content */
+    /* Mobile-safe wrapping in flex layout */
     .title { flex:1; min-width:0; }
-    .title strong {
-      display:block; font-size:15px; font-weight:650;
-      overflow-wrap:anywhere;
-    }
-    .title span {
-      display:block; font-size:13px; color:var(--muted); margin-top:2px;
-      overflow-wrap:anywhere;
-    }
+    .title strong { display:block; font-size:15px; font-weight:650; overflow-wrap:anywhere; }
+    .title span { display:block; font-size:13px; color:var(--muted); margin-top:2px; overflow-wrap:anywhere; }
 
-    /* Link styling that stays visible on narrow screens */
-    .title a {
+    .links {
+      margin-top: 8px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .chip {
       display:inline-block;
-      margin-top:6px;
       font-size:12px;
       color:#a5b4fc;
       text-decoration:none;
@@ -67,7 +65,7 @@
       overflow-wrap:anywhere;
       -webkit-tap-highlight-color: transparent;
     }
-    .title a:hover { text-decoration:underline; }
+    .chip:hover { text-decoration: underline; }
 
     .ghost { opacity:.55; }
 
@@ -92,11 +90,10 @@
       overflow:auto; font-size:12px;
     }
 
-    /* Optional: slightly roomier tap targets on small screens */
     @media (max-width: 520px) {
       .item { padding: 12px 10px; }
       .handle { width: 34px; height: 34px; }
-      .title a { padding: 7px 12px; }
+      .chip { padding: 7px 12px; }
     }
   </style>
 </head>
@@ -109,137 +106,212 @@
   <div class="card">
     <ol id="rankList" class="list">
 
+      <!-- 1. American Dirt -->
       <li class="item" draggable="true" data-id="american-dirt">
         <div class="rank">1</div><div class="handle">≡</div>
         <div class="title">
-          <strong>American Dirt</strong>
-          <span>Jeanine Cummins</span>
-          <a href="https://a.co/d/6x8cZTP" target="_blank" rel="noopener noreferrer">Amazon link</a>
+          <strong>American Dirt</strong><span>Jeanine Cummins</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/book/show/45046527-american-dirt" target="_blank" rel="noopener noreferrer">Goodreads</a>
+            <a class="chip" href="https://www.nytimes.com/2020/01/19/books/review/american-dirt-jeanine-cummins.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+          </div>
         </div>
       </li>
 
+      <!-- 2. Beautiful Ugly -->
       <li class="item" draggable="true" data-id="beautiful-ugly">
         <div class="rank">2</div><div class="handle">≡</div>
-        <div class="title"><strong>Beautiful Ugly</strong><span>Alice Feeney</span></div>
+        <div class="title">
+          <strong>Beautiful Ugly</strong><span>Alice Feeney</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/search?q=Beautiful%20Ugly%20Alice%20Feeney" target="_blank" rel="noopener noreferrer">Goodreads</a>
+          </div>
+        </div>
       </li>
 
+      <!-- 3. Bury Our Bones in the Midnight Soil -->
       <li class="item" draggable="true" data-id="bury-our-bones-in-the-midnight-soil">
         <div class="rank">3</div><div class="handle">≡</div>
-        <div class="title"><strong>Bury Our Bones in the Midnight Soil</strong><span>V. E. Schwab</span></div>
+        <div class="title">
+          <strong>Bury Our Bones in the Midnight Soil</strong><span>V. E. Schwab</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/book/show/215020997-bury-our-bones-in-the-midnight-soil" target="_blank" rel="noopener noreferrer">Goodreads</a>
+            <a class="chip" href="https://www.nytimes.com/2025/06/10/books/review/bury-our-bones-in-the-midnight-soil-by-v-e-schwab.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+          </div>
+        </div>
       </li>
 
+      <!-- 4. Cutting for Stone -->
       <li class="item" draggable="true" data-id="cutting-for-stone">
         <div class="rank">4</div><div class="handle">≡</div>
         <div class="title">
-          <strong>Cutting for Stone</strong>
-          <span>Abraham Verghese</span>
-          <a href="https://www.goodreads.com/book/show/3591262" target="_blank" rel="noopener noreferrer">Goodreads link</a>
+          <strong>Cutting for Stone</strong><span>Abraham Verghese</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/book/show/3591262" target="_blank" rel="noopener noreferrer">Goodreads</a>
+            <a class="chip" href="https://www.nytimes.com/2009/02/08/books/review/Wagner-t.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+          </div>
         </div>
       </li>
 
+      <!-- 5. The Eyes of Gaza -->
       <li class="item" draggable="true" data-id="eyes-of-gaza">
         <div class="rank">5</div><div class="handle">≡</div>
         <div class="title">
-          <strong>The Eyes of Gaza</strong>
-          <span>Plestia Alaqad</span>
-          <a href="https://www.goodreads.com/book/show/219223024" target="_blank" rel="noopener noreferrer">Goodreads link</a>
+          <strong>The Eyes of Gaza</strong><span>Plestia Alaqad</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/book/show/219223024" target="_blank" rel="noopener noreferrer">Goodreads</a>
+          </div>
         </div>
       </li>
 
+      <!-- 6. The God Or The Woods -->
       <li class="item" draggable="true" data-id="god-or-the-woods">
         <div class="rank">6</div><div class="handle">≡</div>
-        <div class="title"><strong>The God Or The Woods</strong><span>Liz Moore</span></div>
+        <div class="title">
+          <strong>The God Or The Woods</strong><span>Liz Moore</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/book/show/199698485-the-god-of-the-woods" target="_blank" rel="noopener noreferrer">Goodreads</a>
+            <a class="chip" href="https://www.nytimes.com/2024/07/02/books/review/the-god-of-the-woods-liz-moore.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+          </div>
+        </div>
       </li>
 
+      <!-- 7. How to Dodge a Cannonball -->
       <li class="item" draggable="true" data-id="how-to-dodge-a-cannonball">
         <div class="rank">7</div><div class="handle">≡</div>
-        <div class="title"><strong>How to Dodge a Cannonball</strong><span>Dennard Dayle</span></div>
+        <div class="title">
+          <strong>How to Dodge a Cannonball</strong><span>Dennard Dayle</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/book/show/217388187-how-to-dodge-a-cannonball" target="_blank" rel="noopener noreferrer">Goodreads</a>
+            <a class="chip" href="https://www.nytimes.com/2025/06/16/books/review/how-to-dodge-a-cannonball-dennard-dayle.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+          </div>
+        </div>
       </li>
 
+      <!-- 8. How to Say Babylon -->
       <li class="item" draggable="true" data-id="how-to-say-babylon">
         <div class="rank">8</div><div class="handle">≡</div>
         <div class="title">
-          <strong>How to Say Babylon</strong>
-          <span>Sofia Sinclair</span>
-          <a href="https://www.goodreads.com/book/show/62919742" target="_blank" rel="noopener noreferrer">Goodreads link</a>
+          <strong>How to Say Babylon</strong><span>Safiya Sinclair</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/book/show/62919742-how-to-say-babylon" target="_blank" rel="noopener noreferrer">Goodreads</a>
+            <a class="chip" href="https://www.nytimes.com/2023/09/29/books/review/how-to-say-babylon-safiya-sinclair.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+          </div>
         </div>
       </li>
 
+      <!-- 9. I Who Have Never Known Men -->
       <li class="item" draggable="true" data-id="i-who-have-never-known-men">
         <div class="rank">9</div><div class="handle">≡</div>
         <div class="title">
-          <strong>I Who Have Never Known Men</strong>
-          <span>Jacqueline Harpman</span>
-          <a href="https://www.goodreads.com/book/show/60811826" target="_blank" rel="noopener noreferrer">Goodreads link</a>
+          <strong>I Who Have Never Known Men</strong><span>Jacqueline Harpman</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/book/show/60811826" target="_blank" rel="noopener noreferrer">Goodreads</a>
+          </div>
         </div>
       </li>
 
+      <!-- 10. Isola -->
       <li class="item" draggable="true" data-id="isola">
         <div class="rank">10</div><div class="handle">≡</div>
-        <div class="title"><strong>Isola</strong><span>Allegra Goodman</span></div>
+        <div class="title">
+          <strong>Isola</strong><span>Allegra Goodman</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/book/show/212806636-isola" target="_blank" rel="noopener noreferrer">Goodreads</a>
+            <a class="chip" href="https://www.nytimes.com/2025/02/01/books/review/allegra-goodman-isola.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+          </div>
+        </div>
       </li>
 
+      <!-- 11. The Mad Wife -->
       <li class="item" draggable="true" data-id="mad-wife">
         <div class="rank">11</div><div class="handle">≡</div>
-        <div class="title"><strong>The Mad Wife</strong><span>Meagan Church</span></div>
+        <div class="title">
+          <strong>The Mad Wife</strong><span>Meagan Church</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/search?q=The%20Mad%20Wife%20Meagan%20Church" target="_blank" rel="noopener noreferrer">Goodreads</a>
+          </div>
+        </div>
       </li>
 
+      <!-- 12. North Woods -->
       <li class="item" draggable="true" data-id="north-woods">
         <div class="rank">12</div><div class="handle">≡</div>
         <div class="title">
-          <strong>North Woods</strong>
-          <span>Daniel Mason</span>
-          <a href="https://www.goodreads.com/book/show/75569082" target="_blank" rel="noopener noreferrer">Goodreads link</a>
+          <strong>North Woods</strong><span>Daniel Mason</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/book/show/75569082" target="_blank" rel="noopener noreferrer">Goodreads</a>
+            <a class="chip" href="https://www.nytimes.com/2023/09/19/books/review/daniel-mason-north-woods.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+          </div>
         </div>
       </li>
 
+      <!-- 13. Run for the Hills -->
       <li class="item" draggable="true" data-id="run-for-the-hills">
         <div class="rank">13</div><div class="handle">≡</div>
-        <div class="title"><strong>Run for the Hills</strong><span>Kevin Wilson</span></div>
+        <div class="title">
+          <strong>Run for the Hills</strong><span>Kevin Wilson</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/book/show/218671843-run-for-the-hills" target="_blank" rel="noopener noreferrer">Goodreads</a>
+            <a class="chip" href="https://www.nytimes.com/2025/05/13/books/review/kevin-wilson-run-for-the-hills.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+          </div>
+        </div>
       </li>
 
+      <!-- 14. The Stone Yard Devotional -->
       <li class="item" draggable="true" data-id="stone-yard-devotional">
         <div class="rank">14</div><div class="handle">≡</div>
         <div class="title">
-          <strong>The Stone Yard Devotional</strong>
-          <span>Charlotte Wood</span>
-          <a href="https://www.nytimes.com/2025/02/10/books/review/stone-yard-devotional-charlotte-wood.html" target="_blank" rel="noopener noreferrer">NYT review link</a>
+          <strong>The Stone Yard Devotional</strong><span>Charlotte Wood</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/book/show/168632462-stone-yard-devotional" target="_blank" rel="noopener noreferrer">Goodreads</a>
+            <a class="chip" href="https://www.nytimes.com/2025/02/10/books/review/stone-yard-devotional-charlotte-wood.html?smid=nytcore-android-share" target="_blank" rel="noopener noreferrer">NYT Review</a>
+          </div>
         </div>
       </li>
 
+      <!-- 15. The Sun Does Shine -->
       <li class="item" draggable="true" data-id="sun-does-shine">
         <div class="rank">15</div><div class="handle">≡</div>
         <div class="title">
-          <strong>The Sun Does Shine</strong>
-          <span>Anthony Ray Hinton</span>
-          <a href="https://www.goodreads.com/book/show/34964905" target="_blank" rel="noopener noreferrer">Goodreads link</a>
+          <strong>The Sun Does Shine</strong><span>Anthony Ray Hinton</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/book/show/34964905-the-sun-does-shine" target="_blank" rel="noopener noreferrer">Goodreads</a>
+          </div>
         </div>
       </li>
 
+      <!-- 16. Theo of Golden -->
       <li class="item" draggable="true" data-id="theo-of-golden">
         <div class="rank">16</div><div class="handle">≡</div>
         <div class="title">
-          <strong>Theo of Golden</strong>
-          <span>Allen Levi</span>
-          <a href="https://www.goodreads.com/book/show/242376245" target="_blank" rel="noopener noreferrer">Goodreads link</a>
+          <strong>Theo of Golden</strong><span>Allen Levi</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/book/show/242376245-theo-of-golden" target="_blank" rel="noopener noreferrer">Goodreads</a>
+          </div>
         </div>
       </li>
 
+      <!-- 17. Twenty Years Later -->
       <li class="item" draggable="true" data-id="twenty-years-later">
         <div class="rank">17</div><div class="handle">≡</div>
         <div class="title">
-          <strong>Twenty Years Later</strong>
-          <span>Charlie Donlea</span>
-          <a href="https://www.goodreads.com/book/show/57645345" target="_blank" rel="noopener noreferrer">Goodreads link</a>
+          <strong>Twenty Years Later</strong><span>Charlie Donlea</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/book/show/57645345-twenty-years-later" target="_blank" rel="noopener noreferrer">Goodreads</a>
+          </div>
         </div>
       </li>
 
+      <!-- 18. Victorian Psycho -->
       <li class="item" draggable="true" data-id="victorian-psycho">
         <div class="rank">18</div><div class="handle">≡</div>
         <div class="title">
-          <strong>Victorian Psycho</strong>
-          <span>Virginia Feito</span>
-          <a href="https://a.co/d/013pHNL" target="_blank" rel="noopener noreferrer">Amazon link</a>
+          <strong>Victorian Psycho</strong><span>Virginia Feito</span>
+          <div class="links">
+            <a class="chip" href="https://www.goodreads.com/book/show/213395480-victorian-psycho" target="_blank" rel="noopener noreferrer">Goodreads</a>
+            <a class="chip" href="https://www.nytimes.com/2025/02/01/books/review/victorian-psycho-virginia-feito.html" target="_blank" rel="noopener noreferrer">NYT Review</a>
+          </div>
         </div>
       </li>
 
@@ -265,7 +337,7 @@
   const copyBtn = document.getElementById('copyBtn');
   const resetBtn = document.getElementById('resetBtn');
 
-  const STORAGE_KEY = 'bookclub_ranking_final_v1';
+  const STORAGE_KEY = 'bookclub_ranking_final_v1_links_nyt';
   let dragSrc = null;
   const originalOrder = Array.from(list.children);
 
@@ -281,7 +353,8 @@
         id: li.dataset.id,
         title: li.querySelector('strong').textContent,
         author: li.querySelector('span').textContent,
-        link: li.querySelector('a') ? li.querySelector('a').href : null
+        goodreads: li.querySelector('.links a[href*="goodreads.com"]')?.href || null,
+        nytimes: li.querySelector('.links a[href*="nytimes.com"]')?.href || null
       }))
     };
   }
