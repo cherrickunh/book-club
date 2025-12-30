@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Book Club Interest Ranking</title>
+  <style>
+    :root { --bg:#0b0c10; --card:#12131a; --muted:#9aa3b2; --text:#eef2ff; --accent:#7c3aed; --border:#26293a; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:linear-gradient(180deg,#0b0c10,#0b0c10 60%,#0e1020); color:var(--text); }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 28px 16px 48px; }
+    h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: .2px; }
+    p { margin: 8px 0; color: var(--muted); line-height: 1.45; }
+    .card { background: rgba(18,19,26,.85); border: 1px solid var(--border); border-radius: 16px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+    .row { display:flex; gap: 12px; flex-wrap: wrap; }
+    label { display:block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    input[type="text"]{
+      width: 100%; max-width: 420px; padding: 10px 12px; border-radius: 12px;
+      border: 1px solid var(--border); background: #0f1020; color: var(--text);
+      outline: none;
+    }
+    input[type="text"]:focus{ border-color: rgba(124,58,237,.6); box-shadow: 0 0 0 4px rgba(124,58,237,.15); }
+    .list { margin-top: 14px; padding: 0; list-style: none; }
+    .item {
+      display:flex; align-items:center; gap: 12px;
+      background: #0f1020; border: 1px solid var(--border); border-radius: 14px;
+      padding: 12px 12px; margin: 10px 0;
+      cursor: grab;
+      user-select:none;
+    }
+    .item:active { cursor: grabbing; }
+    .handle {
+      width: 34px; height: 34px; border-radius: 10px;
+      border: 1px solid var(--border);
+      display:grid; place-items:center;
+      color: var(--muted);
+      flex: 0 0 auto;
+    }
+    .rank {
+      font-variant-numeric: tabular-nums;
+      width: 28px;
+      color: var(--muted);
+      text-align:right;
+      flex: 0 0 auto;
+    }
+    .title { flex: 1 1 auto; }
+    .title strong{ display:block; font-size: 15px; font-weight: 650; }
+    .title span{ display:block; font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .ghost { opacity: .55; }
+    .drag-over { outline: 2px dashed rgba(124,58,237,.55); outline-offset: 2px; }
+    .actions { margin-top: 14px; display:flex; gap: 10px; flex-wrap: wrap; }
+    button {
+      border: 1px solid var(--border);
+      background: #15162a;
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight: 600;
+    }
+    button.primary {
+      background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(99,102,241,.95));
+      border-color: rgba(124,58,237,.45);
+    }
+    button:hover { filter: brightness(1.06); }
+    button:disabled { opacity:.55; cursor:not-allowed; }
+    .status { margin-top: 12px; font-size: 13px; color: var(--muted); }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    .box {
+      margin-top: 12px;
+      background: #0f1020;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      overflow:auto;
+      display:none;
+    }
+    .footer { margin-top: 14px; font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Book Club Interest Ranking</h1>
+    <p>Drag to reorder the books from <strong>most</strong> interested (top) to <strong>least</strong> interested (bottom), then click Submit.</p>
+
+    <div class="card">
+      <div class="row">
+        <div style="flex:1 1 420px;">
+          <label for="name">Your name (optional)</label>
+          <input id="name" type="text" placeholder="e.g., Christina" autocomplete="name" />
+        </div>
+      </div>
+
+      <ol id="rankList" class="list" aria-label="Rankable book list">
+        <!-- Edit these items for your club -->
+        <li class="item" draggable="true" data-id="book-1">
+          <div class="rank">1</div>
+          <div class="handle" aria-hidden="true">≡</div>
+          <div class="title">
+            <strong>The Wager</strong>
+            <span>David Grann</span>
+          </div>
+        </li>
+        <li class="item" draggable="true" data-id="book-2">
+          <div class="rank">2</div>
+          <div class="handle" aria-hidden="true">≡</div>
+          <div class="title">
+            <strong>Tomorrow, and Tomorrow, and Tomorrow</strong>
+            <span>Gabrielle Zevin</span>
+          </div>
+        </li>
+        <li class="item" draggable="true" data-id="book-3">
+          <div class="rank">3</div>
+          <div class="handle" aria-hidden="true">≡</div>
+          <div class="title">
+            <strong>Remarkably Bright Creatures</strong>
+            <span>Shelby Van Pelt</span>
+          </div>
+        </li>
+        <li class="item" draggable="true" data-id="book-4">
+          <div class="rank">4</div>
+          <div class="handle" aria-hidden="true">≡</div>
+          <div class="title">
+            <strong>Lessons in Chemistry</strong>
+            <span>Bonnie Garmus</span>
+          </div>
+        </li>
+        <li class="item" draggable="true" data-id="book-5">
+          <div class="rank">5</div>
+          <div class="handle" aria-hidden="true">≡</div>
+          <div class="title">
+            <strong>Project Hail Mary</strong>
+            <span>Andy Weir</span>
+          </div>
+        </li>
+      </ol>
+
+      <div class="actions">
+        <button class="primary" id="submitBtn">Submit</button>
+        <button id="copyBtn" disabled>Copy submission JSON</button>
+        <button id="resetBtn" type="button">Reset order</button>
+        <button id="clearSavedBtn" type="button">Clear saved submission</button>
+      </div>
+
+      <div class="status" id="status">Not submitted yet.</div>
+      <pre class="box mono" id="output" aria-label="Submission output"></pre>
+
+      <div class="footer">
+        Notes: this page stores your submission in <span class="mono">localStorage</span> (on this device only). If you want centralized collection, tell me whether you prefer Google Sheets or GitHub Issues and I’ll wire it up.
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const list = document.getElementById('rankList');
+  const statusEl = document.getElementById('status');
+  const outEl = document.getElementById('output');
+  const submitBtn = document.getElementById('submitBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const clearSavedBtn = document.getElementById('clearSavedBtn');
+  const nameEl = document.getElementById('name');
+
+  const STORAGE_KEY = 'bookclub_ranking_submission_v1';
+  let dragSrc = null;
+
+  function items() {
+    return Array.from(list.querySelectorAll('.item'));
+  }
+
+  function updateRanks() {
+    items().forEach((li, idx) => {
+      li.querySelector('.rank').textContent = String(idx + 1);
+    });
+  }
+
+  function serialize() {
+    const now = new Date();
+    return {
+      submitted_at: now.toISOString(),
+      name: (nameEl.value || '').trim(),
+      ranking: items().map((li, idx) => {
+        const title = li.querySelector('.title strong')?.textContent?.trim() ?? '';
+        const author = li.querySelector('.title span')?.textContent?.trim() ?? '';
+        return {
+          rank: idx + 1,
+          id: li.dataset.id || null,
+          title,
+          author
+        };
+      })
+    };
+  }
+
+  function setStatus(msg) {
+    statusEl.textContent = msg;
+  }
+
+  function showOutput(obj) {
+    outEl.style.display = 'block';
+    outEl.textContent = JSON.stringify(obj, null, 2);
+  }
+
+  function hideOutput() {
+    outEl.style.display = 'none';
+    outEl.textContent = '';
+  }
+
+  function saveSubmission(obj) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+  }
+
+  function loadSubmission() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    try { return JSON.parse(raw); } catch { return null; }
+  }
+
+  function clearSaved() {
+    localStorage.removeItem(STORAGE_KEY);
+  }
+
+  function restoreFromSaved(saved) {
+    if (!saved?.ranking?.length) return;
+    // Build a map from id -> element
+    const map = new Map(items().map(li => [li.dataset.id, li]));
+    // Reorder list based on saved order (fallback to current for missing)
+    const ordered = [];
+    for (const r of saved.ranking) {
+      const el = map.get(r.id);
+      if (el) ordered.push(el);
+    }
+    // Append any remaining items not in saved ranking
+    for (const li of items()) {
+      if (!ordered.includes(li)) ordered.push(li);
+    }
+    // Apply order
+    ordered.forEach(li => list.appendChild(li));
+    updateRanks();
+    if (saved.name) nameEl.value = saved.name;
+  }
+
+  // ---- Drag and drop handlers ----
+  function onDragStart(e) {
+    const li = e.currentTarget;
+    dragSrc = li;
+    li.classList.add('ghost');
+    e.dataTransfer.effectAllowed = 'move';
+    // Required for Firefox
+    e.dataTransfer.setData('text/plain', li.dataset.id || '');
+  }
+
+  function onDragEnd(e) {
+    const li = e.currentTarget;
+    li.classList.remove('ghost');
+    items().forEach(x => x.classList.remove('drag-over'));
+    dragSrc = null;
+    updateRanks();
+  }
+
+  function onDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    const target = e.currentTarget;
+    if (!dragSrc || target === dragSrc) return;
+
+    // Visual hint
+    items().forEach(x => x.classList.remove('drag-over'));
+    target.classList.add('drag-over');
+
+    // Reorder on hover
+    const rect = target.getBoundingClientRect();
+    const before = (e.clientY - rect.top) < rect.height / 2;
+
+    if (before) {
+      list.insertBefore(dragSrc, target);
+    } else {
+      list.insertBefore(dragSrc, target.nextSibling);
+    }
+  }
+
+  function wireDnD(li) {
+    li.addEventListener('dragstart', onDragStart);
+    li.addEventListener('dragend', onDragEnd);
+    li.addEventListener('dragover', onDragOver);
+  }
+
+  // Touch support (basic) – long-press to pick up, drag to reorder
+  // This keeps the file dependency-free.
+  let touchDragging = null;
+
+  function onTouchStart(e) {
+    const li = e.currentTarget;
+    if (e.touches.length !== 1) return;
+    touchDragging = { li, startY: e.touches[0].clientY };
+    li.classList.add('ghost');
+  }
+
+  function onTouchMove(e) {
+    if (!touchDragging) return;
+    e.preventDefault();
+    const y = e.touches[0].clientY;
+    const draggingEl = touchDragging.li;
+
+    // Find closest item under touch
+    const under = document.elementFromPoint(e.touches[0].clientX, y);
+    const target = under?.closest?.('.item');
+    if (!target || target === draggingEl) return;
+
+    const rect = target.getBoundingClientRect();
+    const before = (y - rect.top) < rect.height / 2;
+
+    if (before) list.insertBefore(draggingEl, target);
+    else list.insertBefore(draggingEl, target.nextSibling);
+
+    updateRanks();
+  }
+
+  function onTouchEnd() {
+    if (!touchDragging) return;
+    touchDragging.li.classList.remove('ghost');
+    touchDragging = null;
+    items().forEach(x => x.classList.remove('drag-over'));
+    updateRanks();
+  }
+
+  function wireTouch(li) {
+    li.addEventListener('touchstart', onTouchStart, { passive: true });
+    li.addEventListener('touchmove', onTouchMove, { passive: false });
+    li.addEventListener('touchend', onTouchEnd);
+    li.addEventListener('touchcancel', onTouchEnd);
+  }
+
+  // ---- Buttons ----
+  submitBtn.addEventListener('click', () => {
+    const submission = serialize();
+    saveSubmission(submission);
+    showOutput(submission);
+    setStatus(`Submitted locally on this device at ${new Date(submission.submitted_at).toLocaleString()}.`);
+    copyBtn.disabled = false;
+  });
+
+  copyBtn.addEventListener('click', async () => {
+    const saved = loadSubmission();
+    if (!saved) return;
+    const text = JSON.stringify(saved, null, 2);
+    try {
+      await navigator.clipboard.writeText(text);
+      setStatus('Copied submission JSON to clipboard.');
+    } catch {
+      // Fallback
+      showOutput(saved);
+      setStatus('Could not access clipboard automatically. Select and copy the JSON shown below.');
+    }
+  });
+
+  resetBtn.addEventListener('click', () => {
+    // Reset to original order based on initial DOM order stored at load time
+    originalOrder.forEach(li => list.appendChild(li));
+    updateRanks();
+    setStatus('Order reset.');
+  });
+
+  clearSavedBtn.addEventListener('click', () => {
+    clearSaved();
+    hideOutput();
+    copyBtn.disabled = true;
+    setStatus('Saved submission cleared.');
+  });
+
+  // ---- Init ----
+  const originalOrder = items().slice(); // capture initial order
+  items().forEach(li => { wireDnD(li); wireTouch(li); });
+  updateRanks();
+
+  const saved = loadSubmission();
+  if (saved) {
+    restoreFromSaved(saved);
+    showOutput(saved);
+    copyBtn.disabled = false;
+    setStatus(`Loaded a saved submission from this device (${new Date(saved.submitted_at).toLocaleString()}).`);
+  }
+})();
+</script>
+</body>
+</html>
+
