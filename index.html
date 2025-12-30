@@ -39,9 +39,35 @@
       display:grid; place-items:center; color:var(--muted);
       flex:0 0 auto;
     }
-    .title { flex:1; }
-    .title strong { display:block; font-size:15px; font-weight:650; }
-    .title span { display:block; font-size:13px; color:var(--muted); margin-top:2px; }
+
+    /* Critical for mobile: allow flex child to shrink and wrap content */
+    .title { flex:1; min-width:0; }
+    .title strong {
+      display:block; font-size:15px; font-weight:650;
+      overflow-wrap:anywhere;
+    }
+    .title span {
+      display:block; font-size:13px; color:var(--muted); margin-top:2px;
+      overflow-wrap:anywhere;
+    }
+
+    /* Link styling that stays visible on narrow screens */
+    .title a {
+      display:inline-block;
+      margin-top:6px;
+      font-size:12px;
+      color:#a5b4fc;
+      text-decoration:none;
+      border:1px solid var(--border);
+      background:#14152a;
+      padding:6px 10px;
+      border-radius:999px;
+      max-width:100%;
+      white-space:normal;
+      overflow-wrap:anywhere;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .title a:hover { text-decoration:underline; }
 
     .ghost { opacity:.55; }
 
@@ -65,6 +91,13 @@
       border-radius:12px; padding:12px;
       overflow:auto; font-size:12px;
     }
+
+    /* Optional: slightly roomier tap targets on small screens */
+    @media (max-width: 520px) {
+      .item { padding: 12px 10px; }
+      .handle { width: 34px; height: 34px; }
+      .title a { padding: 7px 12px; }
+    }
   </style>
 </head>
 
@@ -78,7 +111,11 @@
 
       <li class="item" draggable="true" data-id="american-dirt">
         <div class="rank">1</div><div class="handle">≡</div>
-        <div class="title"><strong>American Dirt</strong><span>Jeanine Cummins</span></div>
+        <div class="title">
+          <strong>American Dirt</strong>
+          <span>Jeanine Cummins</span>
+          <a href="https://a.co/d/6x8cZTP" target="_blank" rel="noopener noreferrer">Amazon link</a>
+        </div>
       </li>
 
       <li class="item" draggable="true" data-id="beautiful-ugly">
@@ -93,12 +130,20 @@
 
       <li class="item" draggable="true" data-id="cutting-for-stone">
         <div class="rank">4</div><div class="handle">≡</div>
-        <div class="title"><strong>Cutting for Stone</strong><span>Abraham Verghese</span></div>
+        <div class="title">
+          <strong>Cutting for Stone</strong>
+          <span>Abraham Verghese</span>
+          <a href="https://www.goodreads.com/book/show/3591262" target="_blank" rel="noopener noreferrer">Goodreads link</a>
+        </div>
       </li>
 
       <li class="item" draggable="true" data-id="eyes-of-gaza">
         <div class="rank">5</div><div class="handle">≡</div>
-        <div class="title"><strong>The Eyes of Gaza</strong><span>Plestia Alaqad</span></div>
+        <div class="title">
+          <strong>The Eyes of Gaza</strong>
+          <span>Plestia Alaqad</span>
+          <a href="https://www.goodreads.com/book/show/219223024" target="_blank" rel="noopener noreferrer">Goodreads link</a>
+        </div>
       </li>
 
       <li class="item" draggable="true" data-id="god-or-the-woods">
@@ -113,12 +158,20 @@
 
       <li class="item" draggable="true" data-id="how-to-say-babylon">
         <div class="rank">8</div><div class="handle">≡</div>
-        <div class="title"><strong>How to Say Babylon</strong><span>Sofia Sinclair</span></div>
+        <div class="title">
+          <strong>How to Say Babylon</strong>
+          <span>Sofia Sinclair</span>
+          <a href="https://www.goodreads.com/book/show/62919742" target="_blank" rel="noopener noreferrer">Goodreads link</a>
+        </div>
       </li>
 
       <li class="item" draggable="true" data-id="i-who-have-never-known-men">
         <div class="rank">9</div><div class="handle">≡</div>
-        <div class="title"><strong>I Who Have Never Known Men</strong><span>Jacqueline Harpman</span></div>
+        <div class="title">
+          <strong>I Who Have Never Known Men</strong>
+          <span>Jacqueline Harpman</span>
+          <a href="https://www.goodreads.com/book/show/60811826" target="_blank" rel="noopener noreferrer">Goodreads link</a>
+        </div>
       </li>
 
       <li class="item" draggable="true" data-id="isola">
@@ -133,7 +186,11 @@
 
       <li class="item" draggable="true" data-id="north-woods">
         <div class="rank">12</div><div class="handle">≡</div>
-        <div class="title"><strong>North Woods</strong><span>Daniel Mason</span></div>
+        <div class="title">
+          <strong>North Woods</strong>
+          <span>Daniel Mason</span>
+          <a href="https://www.goodreads.com/book/show/75569082" target="_blank" rel="noopener noreferrer">Goodreads link</a>
+        </div>
       </li>
 
       <li class="item" draggable="true" data-id="run-for-the-hills">
@@ -143,27 +200,47 @@
 
       <li class="item" draggable="true" data-id="stone-yard-devotional">
         <div class="rank">14</div><div class="handle">≡</div>
-        <div class="title"><strong>The Stone Yard Devotional</strong><span>Charlotte Wood</span></div>
+        <div class="title">
+          <strong>The Stone Yard Devotional</strong>
+          <span>Charlotte Wood</span>
+          <a href="https://www.nytimes.com/2025/02/10/books/review/stone-yard-devotional-charlotte-wood.html" target="_blank" rel="noopener noreferrer">NYT review link</a>
+        </div>
       </li>
 
       <li class="item" draggable="true" data-id="sun-does-shine">
         <div class="rank">15</div><div class="handle">≡</div>
-        <div class="title"><strong>The Sun Does Shine</strong><span>Anthony Ray Hinton</span></div>
+        <div class="title">
+          <strong>The Sun Does Shine</strong>
+          <span>Anthony Ray Hinton</span>
+          <a href="https://www.goodreads.com/book/show/34964905" target="_blank" rel="noopener noreferrer">Goodreads link</a>
+        </div>
       </li>
 
       <li class="item" draggable="true" data-id="theo-of-golden">
         <div class="rank">16</div><div class="handle">≡</div>
-        <div class="title"><strong>Theo of Golden</strong><span>Allen Levi</span></div>
+        <div class="title">
+          <strong>Theo of Golden</strong>
+          <span>Allen Levi</span>
+          <a href="https://www.goodreads.com/book/show/242376245" target="_blank" rel="noopener noreferrer">Goodreads link</a>
+        </div>
       </li>
 
       <li class="item" draggable="true" data-id="twenty-years-later">
         <div class="rank">17</div><div class="handle">≡</div>
-        <div class="title"><strong>Twenty Years Later</strong><span>Charlie Donlea</span></div>
+        <div class="title">
+          <strong>Twenty Years Later</strong>
+          <span>Charlie Donlea</span>
+          <a href="https://www.goodreads.com/book/show/57645345" target="_blank" rel="noopener noreferrer">Goodreads link</a>
+        </div>
       </li>
 
       <li class="item" draggable="true" data-id="victorian-psycho">
         <div class="rank">18</div><div class="handle">≡</div>
-        <div class="title"><strong>Victorian Psycho</strong><span>Virginia Feito</span></div>
+        <div class="title">
+          <strong>Victorian Psycho</strong>
+          <span>Virginia Feito</span>
+          <a href="https://a.co/d/013pHNL" target="_blank" rel="noopener noreferrer">Amazon link</a>
+        </div>
       </li>
 
     </ol>
@@ -203,7 +280,8 @@
         rank: i + 1,
         id: li.dataset.id,
         title: li.querySelector('strong').textContent,
-        author: li.querySelector('span').textContent
+        author: li.querySelector('span').textContent,
+        link: li.querySelector('a') ? li.querySelector('a').href : null
       }))
     };
   }
