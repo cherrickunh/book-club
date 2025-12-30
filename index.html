@@ -6,7 +6,7 @@
   <title>Book Club Interest Ranking</title>
 
   <style>
-    :root { --card:#12131a; --muted:#9aa3b2; --text:#eef2ff; --border:#26293a; }
+    :root { --bg:#0b0c10; --card:#12131a; --muted:#9aa3b2; --text:#eef2ff; --border:#26293a; }
     body {
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -15,7 +15,7 @@
     }
     .wrap { max-width: 900px; margin: 0 auto; padding: 28px 16px 48px; }
     h1 { margin: 0 0 6px; font-size: 28px; }
-    p { margin: 8px 0; color: var(--muted); line-height: 1.45; }
+    p { margin: 8px 0; color: var(--muted); }
     .card {
       background: rgba(18,19,26,.85);
       border: 1px solid var(--border);
@@ -23,64 +23,47 @@
       padding: 18px;
       box-shadow: 0 10px 30px rgba(0,0,0,.25);
     }
-    .list { margin-top: 12px; padding: 0; list-style: none; }
 
+    .list { margin-top: 12px; padding: 0; list-style: none; }
     .item {
-      display:flex;
-      align-items:center;
-      gap: 12px;
-      background: #0f1020;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 12px;
-      margin: 10px 0;
-      cursor: grab;
-      user-select:none;
+      display:flex; align-items:center; gap: 12px;
+      background:#0f1020; border:1px solid var(--border);
+      border-radius:14px; padding:12px; margin:10px 0;
+      cursor:grab; user-select:none;
     }
-    .item:active { cursor: grabbing; }
-    .rank { width: 26px; text-align:right; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .item:active { cursor:grabbing; }
+    .rank { width:28px; text-align:right; color:var(--muted); font-variant-numeric:tabular-nums; }
     .handle {
-      width: 32px; height: 32px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      display:grid; place-items:center;
-      color: var(--muted);
-      flex: 0 0 auto;
+      width:32px; height:32px;
+      border-radius:10px; border:1px solid var(--border);
+      display:grid; place-items:center; color:var(--muted);
+      flex:0 0 auto;
     }
-    .title { flex: 1; min-width: 0; }
-    .title strong { display:block; font-size: 15px; font-weight: 650; }
-    .title span { display:block; font-size: 13px; color: var(--muted); margin-top: 2px; }
-    .title a { display:inline-block; margin-top: 6px; color: #a5b4fc; font-size: 12px; text-decoration: none; }
-    .title a:hover { text-decoration: underline; }
+    .title { flex:1; }
+    .title strong { display:block; font-size:15px; font-weight:650; }
+    .title span { display:block; font-size:13px; color:var(--muted); margin-top:2px; }
 
     .ghost { opacity:.55; }
 
-    .actions { margin-top: 14px; display:flex; gap:10px; flex-wrap:wrap; }
+    .actions { margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; }
     button {
-      border: 1px solid var(--border);
-      background: #15162a;
-      color: var(--text);
-      padding: 10px 14px;
-      border-radius: 12px;
-      cursor:pointer;
-      font-weight:600;
+      border:1px solid var(--border);
+      background:#15162a; color:var(--text);
+      padding:10px 14px; border-radius:12px;
+      cursor:pointer; font-weight:600;
     }
     button.primary {
-      background: linear-gradient(135deg,#7c3aed,#6366f1);
+      background:linear-gradient(135deg,#7c3aed,#6366f1);
       border-color:#7c3aed;
     }
     button:disabled { opacity:.55; cursor:not-allowed; }
 
-    .status { margin-top: 12px; font-size: 13px; color: var(--muted); }
+    .status { margin-top:12px; font-size:13px; color:var(--muted); }
     pre {
-      display:none;
-      margin-top:12px;
-      background:#0f1020;
-      border:1px solid var(--border);
-      border-radius:12px;
-      padding:12px;
-      overflow:auto;
-      font-size:12px;
+      display:none; margin-top:12px;
+      background:#0f1020; border:1px solid var(--border);
+      border-radius:12px; padding:12px;
+      overflow:auto; font-size:12px;
     }
   </style>
 </head>
@@ -93,136 +76,94 @@
   <div class="card">
     <ol id="rankList" class="list">
 
-      <li class="item" draggable="true" data-id="isola">
+      <li class="item" draggable="true" data-id="american-dirt">
         <div class="rank">1</div><div class="handle">≡</div>
-        <div class="title"><strong>Isola</strong><span>Allegra Goodman</span></div>
+        <div class="title"><strong>American Dirt</strong><span>Jeanine Cummins</span></div>
       </li>
 
-      <li class="item" draggable="true" data-id="run-for-the-hills">
+      <li class="item" draggable="true" data-id="beautiful-ugly">
         <div class="rank">2</div><div class="handle">≡</div>
-        <div class="title"><strong>Run for the Hills</strong><span>Kevin Wilson</span></div>
+        <div class="title"><strong>Beautiful Ugly</strong><span>Alice Feeney</span></div>
+      </li>
+
+      <li class="item" draggable="true" data-id="bury-our-bones-in-the-midnight-soil">
+        <div class="rank">3</div><div class="handle">≡</div>
+        <div class="title"><strong>Bury Our Bones in the Midnight Soil</strong><span>V. E. Schwab</span></div>
+      </li>
+
+      <li class="item" draggable="true" data-id="cutting-for-stone">
+        <div class="rank">4</div><div class="handle">≡</div>
+        <div class="title"><strong>Cutting for Stone</strong><span>Abraham Verghese</span></div>
+      </li>
+
+      <li class="item" draggable="true" data-id="eyes-of-gaza">
+        <div class="rank">5</div><div class="handle">≡</div>
+        <div class="title"><strong>The Eyes of Gaza</strong><span>Plestia Alaqad</span></div>
+      </li>
+
+      <li class="item" draggable="true" data-id="god-or-the-woods">
+        <div class="rank">6</div><div class="handle">≡</div>
+        <div class="title"><strong>The God Or The Woods</strong><span>Liz Moore</span></div>
       </li>
 
       <li class="item" draggable="true" data-id="how-to-dodge-a-cannonball">
-        <div class="rank">3</div><div class="handle">≡</div>
-        <div class="title"><strong>How to Dodge a Cannonball</strong><span>Dennard Dayle</span></div>
-      </li>
-
-      <li class="item" draggable="true" data-id="the-eyes-of-gaza">
-        <div class="rank">4</div><div class="handle">≡</div>
-        <div class="title">
-          <strong>The Eyes of Gaza</strong><span>Plestia Alaqad</span>
-          <a href="https://www.goodreads.com/book/show/219223024" target="_blank" rel="noopener">Goodreads</a>
-        </div>
-      </li>
-
-      <li class="item" draggable="true" data-id="i-who-have-never-known-men">
-        <div class="rank">5</div><div class="handle">≡</div>
-        <div class="title">
-          <strong>I Who Have Never Known Men</strong><span>Jacqueline Harpman</span>
-          <a href="https://www.goodreads.com/book/show/60811826" target="_blank" rel="noopener">Goodreads</a>
-        </div>
-      </li>
-
-      <li class="item" draggable="true" data-id="theo-of-golden-allen-levi">
-        <div class="rank">6</div><div class="handle">≡</div>
-        <div class="title">
-          <strong>Theo of Golden</strong><span>Allen Levi</span>
-          <a href="https://www.goodreads.com/book/show/242376245" target="_blank" rel="noopener">Goodreads</a>
-        </div>
-      </li>
-
-      <!-- Added back per your note about missing books -->
-      <li class="item" draggable="true" data-id="theo-of-golden-levi">
         <div class="rank">7</div><div class="handle">≡</div>
-        <div class="title">
-          <strong>Theo of Golden</strong><span>Levi</span>
-          <a href="https://www.goodreads.com/book/show/242376245" target="_blank" rel="noopener">Goodreads</a>
-        </div>
+        <div class="title"><strong>How to Dodge a Cannonball</strong><span>Dennard Dayle</span></div>
       </li>
 
       <li class="item" draggable="true" data-id="how-to-say-babylon">
         <div class="rank">8</div><div class="handle">≡</div>
-        <div class="title">
-          <strong>How to Say Babylon</strong><span>Sofia Sinclair</span>
-          <a href="https://www.goodreads.com/book/show/62919742" target="_blank" rel="noopener">Goodreads</a>
-        </div>
+        <div class="title"><strong>How to Say Babylon</strong><span>Sofia Sinclair</span></div>
       </li>
 
-      <li class="item" draggable="true" data-id="cutting-for-stone">
+      <li class="item" draggable="true" data-id="i-who-have-never-known-men">
         <div class="rank">9</div><div class="handle">≡</div>
-        <div class="title">
-          <strong>Cutting for Stone</strong><span>Abraham Verghese</span>
-          <a href="https://www.goodreads.com/book/show/3591262" target="_blank" rel="noopener">Goodreads</a>
-        </div>
+        <div class="title"><strong>I Who Have Never Known Men</strong><span>Jacqueline Harpman</span></div>
+      </li>
+
+      <li class="item" draggable="true" data-id="isola">
+        <div class="rank">10</div><div class="handle">≡</div>
+        <div class="title"><strong>Isola</strong><span>Allegra Goodman</span></div>
+      </li>
+
+      <li class="item" draggable="true" data-id="mad-wife">
+        <div class="rank">11</div><div class="handle">≡</div>
+        <div class="title"><strong>The Mad Wife</strong><span>Meagan Church</span></div>
       </li>
 
       <li class="item" draggable="true" data-id="north-woods">
-        <div class="rank">10</div><div class="handle">≡</div>
-        <div class="title">
-          <strong>North Woods</strong><span>Daniel Mason</span>
-          <a href="https://www.goodreads.com/book/show/75569082" target="_blank" rel="noopener">Goodreads</a>
-        </div>
-      </li>
-
-      <li class="item" draggable="true" data-id="the-sun-does-shine">
-        <div class="rank">11</div><div class="handle">≡</div>
-        <div class="title">
-          <strong>The Sun Does Shine</strong><span>Anthony Ray Hinton</span>
-          <a href="https://www.goodreads.com/book/show/34964905" target="_blank" rel="noopener">Goodreads</a>
-        </div>
-      </li>
-
-      <li class="item" draggable="true" data-id="twenty-years-later">
         <div class="rank">12</div><div class="handle">≡</div>
-        <div class="title">
-          <strong>Twenty Years Later</strong><span>Charlie Donlea</span>
-          <a href="https://www.goodreads.com/book/show/57645345" target="_blank" rel="noopener">Goodreads</a>
-        </div>
+        <div class="title"><strong>North Woods</strong><span>Daniel Mason</span></div>
       </li>
 
-      <li class="item" draggable="true" data-id="victorian-psycho">
+      <li class="item" draggable="true" data-id="run-for-the-hills">
         <div class="rank">13</div><div class="handle">≡</div>
-        <div class="title">
-          <strong>Victorian Psycho</strong><span>Virginia Feito</span>
-          <a href="https://a.co/d/013pHNL" target="_blank" rel="noopener">Amazon</a>
-        </div>
+        <div class="title"><strong>Run for the Hills</strong><span>Kevin Wilson</span></div>
       </li>
 
       <li class="item" draggable="true" data-id="stone-yard-devotional">
         <div class="rank">14</div><div class="handle">≡</div>
-        <div class="title">
-          <strong>The Stone Yard Devotional</strong><span>Charlotte Wood</span>
-          <a href="https://www.nytimes.com/2025/02/10/books/review/stone-yard-devotional-charlotte-wood.html" target="_blank" rel="noopener">NYT Review</a>
-        </div>
+        <div class="title"><strong>The Stone Yard Devotional</strong><span>Charlotte Wood</span></div>
       </li>
 
-      <li class="item" draggable="true" data-id="american-dirt">
+      <li class="item" draggable="true" data-id="sun-does-shine">
         <div class="rank">15</div><div class="handle">≡</div>
-        <div class="title">
-          <strong>American Dirt</strong><span>Jeanine Cummins</span>
-          <a href="https://a.co/d/6x8cZTP" target="_blank" rel="noopener">Amazon</a>
-        </div>
+        <div class="title"><strong>The Sun Does Shine</strong><span>Anthony Ray Hinton</span></div>
       </li>
 
-      <li class="item" draggable="true" data-id="bury-our-bones-in-the-midnight-soil">
+      <li class="item" draggable="true" data-id="theo-of-golden">
         <div class="rank">16</div><div class="handle">≡</div>
-        <div class="title"><strong>Bury Our Bones in the Midnight Soil</strong><span>V. E. Schwab</span></div>
+        <div class="title"><strong>Theo of Golden</strong><span>Allen Levi</span></div>
       </li>
 
-      <li class="item" draggable="true" data-id="the-god-or-the-woods">
+      <li class="item" draggable="true" data-id="twenty-years-later">
         <div class="rank">17</div><div class="handle">≡</div>
-        <div class="title"><strong>The God Or The Woods</strong><span>Liz Moore</span></div>
+        <div class="title"><strong>Twenty Years Later</strong><span>Charlie Donlea</span></div>
       </li>
 
-      <li class="item" draggable="true" data-id="beautiful-ugly">
+      <li class="item" draggable="true" data-id="victorian-psycho">
         <div class="rank">18</div><div class="handle">≡</div>
-        <div class="title"><strong>Beautiful Ugly</strong><span>Alice Feeney</span></div>
-      </li>
-
-      <li class="item" draggable="true" data-id="the-mad-wife">
-        <div class="rank">19</div><div class="handle">≡</div>
-        <div class="title"><strong>The Mad Wife</strong><span>Meagan Church</span></div>
+        <div class="title"><strong>Victorian Psycho</strong><span>Virginia Feito</span></div>
       </li>
 
     </ol>
@@ -247,16 +188,14 @@
   const copyBtn = document.getElementById('copyBtn');
   const resetBtn = document.getElementById('resetBtn');
 
-  const STORAGE_KEY = 'bookclub_ranking_v1';
+  const STORAGE_KEY = 'bookclub_ranking_final_v1';
   let dragSrc = null;
   const originalOrder = Array.from(list.children);
 
   function items() { return Array.from(list.children); }
-
   function updateRanks() {
     items().forEach((li, i) => li.querySelector('.rank').textContent = i + 1);
   }
-
   function serialize() {
     return {
       submitted_at: new Date().toISOString(),
@@ -273,20 +212,17 @@
     li.addEventListener('dragstart', e => {
       dragSrc = li;
       li.classList.add('ghost');
-      e.dataTransfer.setData('text/plain', li.dataset.id || '');
+      e.dataTransfer.setData('text/plain', li.dataset.id);
       e.dataTransfer.effectAllowed = 'move';
     });
-
     li.addEventListener('dragend', () => {
       li.classList.remove('ghost');
       dragSrc = null;
       updateRanks();
     });
-
     li.addEventListener('dragover', e => {
       e.preventDefault();
       if (!dragSrc || dragSrc === li) return;
-
       const rect = li.getBoundingClientRect();
       const before = (e.clientY - rect.top) < rect.height / 2;
       list.insertBefore(dragSrc, before ? li : li.nextSibling);
@@ -306,13 +242,8 @@
   };
 
   copyBtn.onclick = async () => {
-    const text = outEl.textContent || '';
-    try {
-      await navigator.clipboard.writeText(text);
-      statusEl.textContent = 'Submission copied to clipboard.';
-    } catch {
-      statusEl.textContent = 'Clipboard copy blocked. Please manually copy the JSON shown below.';
-    }
+    await navigator.clipboard.writeText(outEl.textContent);
+    statusEl.textContent = 'Submission copied to clipboard.';
   };
 
   resetBtn.onclick = () => {
