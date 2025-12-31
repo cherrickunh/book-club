@@ -62,6 +62,18 @@
       border-color:#6366f1;
     }
 
+    /* Hide number input spinners (Chrome/Edge/Safari) */
+    .rankInput::-webkit-outer-spin-button,
+    .rankInput::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Hide number input spinners (Firefox) */
+    .rankInput[type="number"] {
+      -moz-appearance: textfield;
+    }
+
     /* Mobile-safe wrapping in flex layout */
     .title{ flex:1; min-width:0; }
     .title strong{ display:block; font-size:15px; font-weight:650; overflow-wrap:anywhere; }
@@ -588,25 +600,32 @@
     const all = items();
     const maxRank = all.length;
 
-    const r = clamp(parseInt(targetRank, 10), 1, maxRank);
-    if (!Number.isFinite(r)) return;
-
-    const targetIndex = r - 1;
-
-    // If it's already there, nothing to do.
-    const currentIndex = all.indexOf(li);
-    if (currentIndex === targetIndex) return;
-
-    // Insert before the element currently at targetIndex (or append if last).
-    const beforeNode = all[targetIndex];
-    if (!beforeNode) {
-      list.appendChild(li);
-    } else {
-      list.insertBefore(li, beforeNode);
+    const parsed = parseInt(targetRank, 10);
+    if (!Number.isFinite(parsed)) {
+      updateRanks(); // revert input to current rank
+      return;
     }
 
+    const r = clamp(parsed, 1, maxRank);
+    const targetIndex = r - 1;
+
+    const currentIndex = all.indexOf(li);
+    if (currentIndex === -1 || currentIndex === targetIndex) {
+      updateRanks();
+      return;
+    }
+
+    // IMPORTANT: if moving DOWN, insert before the node AFTER the target,
+    // because removing `li` shifts indices left.
+    let beforeNode = null;
+    if (currentIndex < targetIndex) {
+      beforeNode = all[targetIndex + 1] || null; // null => append to end
+    } else {
+      beforeNode = all[targetIndex] || null;
+    }
+
+    list.insertBefore(li, beforeNode);
     updateRanks();
-    syncRankInputs(); // keep inputs consistent with the visible ranks
   }
 
   function syncRankInputs(){
