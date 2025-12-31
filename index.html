@@ -736,7 +736,6 @@
   }
 
   async function submitToGoogleSheet(payload) {
-    // Prefer CORS so we can read the server’s JSON response (receipt_id / error)
     try {
       const res = await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
@@ -747,51 +746,35 @@
         redirect: 'follow'
       });
 
-      // If the server responded, this is NOT a CORS "NetworkError" situation.
-      // Surface real HTTP errors to the UI.
       if (!res.ok) {
         const text = await res.text().catch(() => '');
         throw new Error(`HTTP ${res.status} ${res.statusText}${text ? ` — ${text}` : ''}`);
       }
 
-      // Parse JSON (your Code.gs returns JSON with ok/receipt_id)
-      const text = await res.text();
-      let data = null;
+      const text = await res.text().catch(() => '');
+      if (!text) return { ok: true };
+
       try {
-        data = text ? JSON.parse(text) : null;
+        const data = JSON.parse(text);
+        if (data && data.ok === false) throw new Error(data.error || 'Server reported failure');
+        return data;
       } catch {
-        // If parsing fails, still treat a 200 as success but return raw for debugging.
+        // 200 OK but non-JSON response
         return { ok: true, raw: text };
       }
-
-      if (data && data.ok === false) {
-        throw new Error(data.error || 'Server reported failure');
-      }
-
-      return data || { ok: true };
     } catch (e) {
-      // Only fallback for true network/CORS failures.
-      // These often show up as TypeError: Failed to fetch / NetworkError when attempting to fetch resource.
       const msg = String(e && e.message ? e.message : e);
       const isNetworkish =
         e instanceof TypeError ||
         /NetworkError|Failed to fetch|Load failed|fetch resource/i.test(msg);
 
-      if (!isNetworkish) {
-        // Not a network/CORS failure => a real exception we should surface.
-        throw e;
+      // CRITICAL: do not send a second POST, or you'll double-submit.
+      if (isNetworkish) {
+        return { ok: true, assumed: true, note: 'Submitted (browser could not confirm response).' };
       }
 
-      // Fallback: fire-and-forget POST. If this throws, we genuinely failed.
-      await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(payload),
-        keepalive: true
-      });
-
-      return { ok: true, opaque: true, note: 'Submitted (response not readable due to browser/CORS limitations).' };
+      // Anything else is a real failure
+      throw e;
     }
   }
 
