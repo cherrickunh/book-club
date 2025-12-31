@@ -109,6 +109,10 @@
       font-weight: 700;
     }
 
+    #output {
+      display: none !important;
+    }
+
   </style>
 </head>
 
@@ -419,8 +423,7 @@
 
 <script>
 (() => {
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwpzg2LCYCIcDN3qo7g5r4neaIQdq7cFFMIcZRt05vXNxCAxKdQ0SUw4PHxrWXwkBgjKw/exec';
-
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzISmrkNaF2EMG4eJMMOcxt1lYUPj_oWwBwAULV5xYaD12jRGKxUIfQdr4yXc7gZY8ItA/exec';
   const list = document.getElementById('rankList');
   const statusEl = document.getElementById('status');
   const outEl = document.getElementById('output');
@@ -445,21 +448,16 @@
     return anchors.find(a => a.textContent.trim() === label)?.href || null;
   }
 
-  function serialize(){
+  function serialize() {
     return {
       submitted_at: new Date().toISOString(),
-      ranking: items().map((li, i) => ({
+      ranking: Array.from(list.children).map((li, i) => ({
         rank: i + 1,
-        id: li.dataset.id,
-        title: li.querySelector('strong').textContent,
-        author: li.querySelector('span').textContent,
-        goodreads: linkByLabel(li, 'Goodreads'),
-        nytimes: linkByLabel(li, 'NYT'),
-        amazon: linkByLabel(li, 'Amazon')
-      })),
-      meta: { user_agent: navigator.userAgent }
+        title: li.querySelector('strong').textContent
+      }))
     };
-  }
+  } 
+
 
   function wire(li){
     li.addEventListener('dragstart', e => {
@@ -515,10 +513,10 @@
     try {
       const payload = serialize();
 
-      outEl.style.display = 'block';
-      outEl.textContent = JSON.stringify(payload, null, 2);
+      // outEl.style.display = 'block';
+      // outEl.textContent = JSON.stringify(payload, null, 2);
 
-      // Keep local backup
+      // Keep local backup silently
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
 
       await submitToGoogleSheet(payload);
