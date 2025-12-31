@@ -48,15 +48,21 @@
     }
 
     .rankInput{
-      width:64px;
-      padding:6px 8px;
-      border-radius:10px;
-      border:1px solid var(--border);
-      background:#0f1020;
-      color:var(--text);
-      outline:none;
+      width: 3ch;        /* fits up to 2 digits comfortably */
+      min-width: 3ch;
+      max-width: 4ch;    /* safety for 3-digit edge cases */
+      padding: 6px 6px;  /* reduce horizontal padding */
+      text-align: center;
+      box-sizing: content-box;
+
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #0f1020;
+      color: var(--text);
+      outline: none;
       font-variant-numeric: tabular-nums;
     }
+
 
     .rankInput:focus{
       border-color:#6366f1;
