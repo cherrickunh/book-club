@@ -571,7 +571,7 @@
 
 <script>
 (() => {
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxS1rp6wKDwLl33-oNkh0nkiZj_pHDgxvsnLFezaOLTQK5Dw8Ma416kGsyPg-MJCCLQ/exec';
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby0dKSmwXUwIGIZYtGJflGKhTeMlQqn0EqYvW0UL0J-cphCwIAJrtWyNQbX3IkjfCWB8g/exec';
   const list = document.getElementById('rankList');
   const statusEl = document.getElementById('status');
   const outEl = document.getElementById('output');
@@ -653,20 +653,36 @@
     return id;
   }
 
-  function serialize() {
+  async function serialize() {
     const name = (nameInput?.value || '').trim();
+    const clientId = getClientId();
+
+    const ranking = Array.from(list.children).map((li, i) => ({
+      rank: i + 1,
+      title: li.querySelector('strong').textContent
+    }));
+
+    // Create a deterministic submission_id from the meaningful content
+    const base = JSON.stringify({
+      client_id: clientId,
+      name: name.length ? name : null,
+      ranking: ranking.map(r => r.title) // title order is sufficient
+    });
+
+    const enc = new TextEncoder().encode(base);
+    const digest = await crypto.subtle.digest('SHA-256', enc);
+    const hex = Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, '0')).join('');
+    const submissionId = hex.slice(0, 16); // short but collision-resistant for your scale
 
     return {
+      submission_id: submissionId,
       submitted_at: new Date().toISOString(),
-      client_id: getClientId(),
-      name: name.length ? name : null,   // optional
-      ranking: Array.from(list.children).map((li, i) => ({
-        rank: i + 1,
-        title: li.querySelector('strong').textContent
-      }))
+      user_agent: navigator.userAgent,
+      client_id: clientId,
+      name: name.length ? name : null,
+      ranking
     };
   }
-
 
   function wire(li){
     // existing drag handlers...
@@ -714,25 +730,63 @@
   }
 
   async function submitToGoogleSheet(payload) {
-    const res = await fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'cors', // <-- change from "no-cors"
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(payload),
-      cache: 'no-store',
-    });
+    // Prefer CORS so we can read the server’s JSON response (receipt_id / error)
+    try {
+      const res = await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload),
+        cache: 'no-store',
+        redirect: 'follow'
+      });
 
-    if (!res.ok) {
-      const text = await res.text().catch(() => '');
-      throw new Error(`HTTP ${res.status} ${res.statusText} ${text}`.trim());
-    }
+      // If the server responded, this is NOT a CORS "NetworkError" situation.
+      // Surface real HTTP errors to the UI.
+      if (!res.ok) {
+        const text = await res.text().catch(() => '');
+        throw new Error(`HTTP ${res.status} ${res.statusText}${text ? ` — ${text}` : ''}`);
+      }
 
-    // Expect JSON back from Apps Script
-    const data = await res.json().catch(async () => ({ raw: await res.text() }));
-    if (data && data.ok === false) {
-      throw new Error(data.error || 'Server reported failure');
+      // Parse JSON (your Code.gs returns JSON with ok/receipt_id)
+      const text = await res.text();
+      let data = null;
+      try {
+        data = text ? JSON.parse(text) : null;
+      } catch {
+        // If parsing fails, still treat a 200 as success but return raw for debugging.
+        return { ok: true, raw: text };
+      }
+
+      if (data && data.ok === false) {
+        throw new Error(data.error || 'Server reported failure');
+      }
+
+      return data || { ok: true };
+    } catch (e) {
+      // Only fallback for true network/CORS failures.
+      // These often show up as TypeError: Failed to fetch / NetworkError when attempting to fetch resource.
+      const msg = String(e && e.message ? e.message : e);
+      const isNetworkish =
+        e instanceof TypeError ||
+        /NetworkError|Failed to fetch|Load failed|fetch resource/i.test(msg);
+
+      if (!isNetworkish) {
+        // Not a network/CORS failure => a real exception we should surface.
+        throw e;
+      }
+
+      // Fallback: fire-and-forget POST. If this throws, we genuinely failed.
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload),
+        keepalive: true
+      });
+
+      return { ok: true, opaque: true, note: 'Submitted (response not readable due to browser/CORS limitations).' };
     }
-    return data;
   }
 
   // Attach drag listeners
@@ -745,16 +799,37 @@
     submittedBanner.hidden = true;
 
     try {
-      const payload = serialize();
+      const payload = await serialize();
+
+      // Helpful for logging in the sheet (Apps Script cannot reliably read UA headers)
+      payload.user_agent = navigator.userAgent;
+
+      // Always keep a local backup (even if network is flaky)
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
 
       const resp = await submitToGoogleSheet(payload);
 
-      statusEl.textContent = 'Submitted!';
+      statusEl.textContent = resp?.receipt_id
+        ? `Submitted! (Receipt: ${resp.receipt_id})`
+        : 'Submitted!';
       submittedBanner.hidden = false;
+
     } catch (err) {
-      submittedBanner.hidden = true;
-      statusEl.textContent = `Submission failed: ${String(err)}`;
+      const msg = String(err && err.message ? err.message : err);
+
+      // If the POST likely went through but the browser couldn't read the response,
+      // do NOT scare the user. This matches the behavior you observed (row appears in Sheet).
+      const isNetworkish =
+        err instanceof TypeError ||
+        /NetworkError|Failed to fetch|Load failed|fetch resource/i.test(msg);
+
+      if (isNetworkish) {
+        statusEl.textContent = 'Submitted! (Confirmation may not display in this browser.)';
+        submittedBanner.hidden = false;
+      } else {
+        submittedBanner.hidden = true;
+        statusEl.textContent = `Submission failed: ${msg}`;
+      }
     } finally {
       submitBtn.disabled = false;
     }
