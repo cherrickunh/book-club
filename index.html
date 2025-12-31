@@ -95,6 +95,20 @@
       .handle{ width: 34px; height: 34px; }
       .chip{ padding: 7px 12px; }
     }
+
+    /* Hide the copy button from users (but keep it in the DOM) */
+    #copyBtn { display: none; }
+
+    /* “Submitted!” banner */
+    .submitted{
+      margin-top: 12px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      background: #0f1020;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
   </style>
 </head>
 
@@ -386,13 +400,20 @@
     </ol>
 
     <div class="actions">
-      <button class="primary" id="submitBtn">Submit</button>
-      <button id="copyBtn" disabled>Copy submission JSON</button>
-      <button id="resetBtn">Reset order</button>
-    </div>
+  <button class="primary" id="submitBtn">Submit</button>
 
-    <div class="status" id="status">Not submitted yet.</div>
-    <pre id="output"></pre>
+  <!-- Hidden admin/debug button (kept so JS doesn't break) -->
+  <button id="copyBtn" disabled>Copy submission JSON</button>
+
+  <button id="resetBtn">Reset order</button>
+  </div>
+
+  <!-- Submitted confirmation banner -->
+  <div id="submittedBanner" class="submitted" hidden>Submitted!</div>
+
+  <div class="status" id="status">Not submitted yet.</div>
+  <pre id="output"></pre>
+
   </div>
 </div>
 
@@ -406,6 +427,8 @@
   const submitBtn = document.getElementById('submitBtn');
   const copyBtn = document.getElementById('copyBtn'); // now exists if you add the button
   const resetBtn = document.getElementById('resetBtn');
+  const submittedBanner = document.getElementById('submittedBanner');
+
 
   const STORAGE_KEY = 'bookclub_ranking_final_google_sheet_v1';
   let dragSrc = null;
@@ -485,6 +508,7 @@
   submitBtn.onclick = async () => {
     submitBtn.disabled = true;
     statusEl.textContent = 'Submitting...';
+    submittedBanner.hidden = true;
 
     try {
       const payload = serialize();
@@ -492,12 +516,15 @@
       outEl.style.display = 'block';
       outEl.textContent = JSON.stringify(payload, null, 2);
 
-      if (copyBtn) copyBtn.disabled = false;
+      // Keep local backup
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
 
       await submitToGoogleSheet(payload);
-      statusEl.textContent = 'Submitted successfully';
+
+      statusEl.textContent = '';
+      submittedBanner.hidden = false;   // <-- This is the “Submitted!” confirmation
     } catch (err) {
+      submittedBanner.hidden = true;
       statusEl.textContent = `Submission failed: ${String(err)}`;
     } finally {
       submitBtn.disabled = false;
