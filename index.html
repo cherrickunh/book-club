@@ -571,7 +571,7 @@
 
 <script>
 (() => {
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzY1rsQXSDFpQzMg2DkbsZ5BRzzAYrkT4OCZQ-WVSvyqiBq4ecRo47oNNJEeI91TJwmSA/exec';
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwZDqYAhC_FOVQA-oC-J1XnvbA3h3xvB5GV5cQ4RXkzGcvPjTo8Obb-WnDAAr2EPW8_hA/exec';
   const list = document.getElementById('rankList');
   const statusEl = document.getElementById('status');
   const outEl = document.getElementById('output');
@@ -714,21 +714,26 @@
   }
 
   async function submitToGoogleSheet(payload) {
-    // Send as text/plain to avoid CORS preflight
-    // Use no-cors so the browser doesn't block on missing CORS response headers.
     const res = await fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
-      mode: 'no-cors',
+      mode: 'cors', // <-- change from "no-cors"
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload),
-      keepalive: true
+      cache: 'no-store',
     });
 
-    // In no-cors mode, the response is "opaque" (you cannot read it).
-    // If fetch() didn't throw, the request was sent.
-    return { ok: true, opaque: true };
-  }
+    if (!res.ok) {
+      const text = await res.text().catch(() => '');
+      throw new Error(`HTTP ${res.status} ${res.statusText} ${text}`.trim());
+    }
 
+    // Expect JSON back from Apps Script
+    const data = await res.json().catch(async () => ({ raw: await res.text() }));
+    if (data && data.ok === false) {
+      throw new Error(data.error || 'Server reported failure');
+    }
+    return data;
+  }
 
   // Attach drag listeners
   items().forEach(wire);
@@ -737,23 +742,16 @@
   submitBtn.onclick = async () => {
     submitBtn.disabled = true;
     statusEl.textContent = 'Submitting...';
-    submittedBanner.hidden = false;
-    statusEl.textContent = 'Submitted!';
-
+    submittedBanner.hidden = true;
 
     try {
       const payload = serialize();
-
-      // outEl.style.display = 'block';
-      // outEl.textContent = JSON.stringify(payload, null, 2);
-
-      // Keep local backup silently
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
 
-      await submitToGoogleSheet(payload);
+      const resp = await submitToGoogleSheet(payload);
 
-      statusEl.textContent = '';
-      submittedBanner.hidden = false;   // <-- This is the “Submitted!” confirmation
+      statusEl.textContent = 'Submitted!';
+      submittedBanner.hidden = false;
     } catch (err) {
       submittedBanner.hidden = true;
       statusEl.textContent = `Submission failed: ${String(err)}`;
