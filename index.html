@@ -387,7 +387,6 @@
 
     <div class="actions">
       <button class="primary" id="submitBtn">Submit</button>
-      <button id="copyBtn" disabled>Copy submission JSON</button>
       <button id="resetBtn">Reset order</button>
     </div>
 
@@ -398,6 +397,8 @@
 
 <script>
 (() => {
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwpzg2LCYCIcDN3qo7g5r4neaIQdq7cFFMIcZRt05vXNxCAxKdQ0SUw4PHxrWXwkBgjKw/exec';
+
   const list = document.getElementById('rankList');
   const statusEl = document.getElementById('status');
   const outEl = document.getElementById('output');
@@ -405,7 +406,7 @@
   const copyBtn = document.getElementById('copyBtn');
   const resetBtn = document.getElementById('resetBtn');
 
-  const STORAGE_KEY = 'bookclub_ranking_final_v1_links';
+  const STORAGE_KEY = 'bookclub_ranking_final_google_sheet_v1';
   let dragSrc = null;
   const originalOrder = Array.from(list.children);
 
@@ -414,10 +415,12 @@
     items().forEach((li, i) => li.querySelector('.rank').textContent = i + 1);
   }
 
-  function serialize(){
-    const getLink = (li, label) =>
-      Array.from(li.querySelectorAll('.links a')).find(a => a.textContent.trim() === label)?.href || null;
+  function linkByLabel(li, label) {
+    const anchors = Array.from(li.querySelectorAll('.links a'));
+    return anchors.find(a => a.textContent.trim() === label)?.href || null;
+  }
 
+  function serialize(){
     return {
       submitted_at: new Date().toISOString(),
       ranking: items().map((li, i) => ({
@@ -425,10 +428,13 @@
         id: li.dataset.id,
         title: li.querySelector('strong').textContent,
         author: li.querySelector('span').textContent,
-        goodreads: getLink(li, 'Goodreads'),
-        nytimes: getLink(li, 'NYT'),
-        amazon: getLink(li, 'Amazon')
-      }))
+        goodreads: linkByLabel(li, 'Goodreads'), // guaranteed present
+        nytimes: linkByLabel(li, 'NYT'),
+        amazon: linkByLabel(li, 'Amazon')
+      })),
+      meta: {
+        user_agent: navigator.userAgent
+      }
     };
   }
 
@@ -455,16 +461,59 @@
     });
   }
 
+  async function submitToGoogleSheet(payload) {
+    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('PASTE_YOUR_WEB_APP_URL_HERE')) {
+      throw new Error('Google Script URL is not set. Paste your Web App URL into GOOGLE_SCRIPT_URL.');
+    }
+
+    const res = await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      // keepalive helps some mobile browsers complete the request even if user navigates away quickly
+      keepalive: true
+    });
+
+    // Apps Script often returns 200 with JSON body
+    const text = await res.text();
+    let data = null;
+    try { data = JSON.parse(text); } catch { /* ignore */ }
+
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}: ${text.slice(0, 200)}`);
+    }
+    if (data && data.ok === false) {
+      throw new Error(data.error || 'Server returned ok=false');
+    }
+    return data || { ok: true };
+  }
+
   items().forEach(wire);
   updateRanks();
 
-  submitBtn.onclick = () => {
-    const data = serialize();
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    outEl.style.display = 'block';
-    outEl.textContent = JSON.stringify(data, null, 2);
-    statusEl.textContent = 'Submission saved on this device.';
-    copyBtn.disabled = false;
+  submitBtn.onclick = async () => {
+    submitBtn.disabled = true;
+    statusEl.textContent = 'Submitting...';
+
+    try {
+      const payload = serialize();
+
+      // Always show/copy locally too
+      outEl.style.display = 'block';
+      outEl.textContent = JSON.stringify(payload, null, 2);
+      copyBtn.disabled = false;
+
+      // Save local backup
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+
+      await submitToGoogleSheet(payload);
+
+      statusEl.textContent = 'Submitted successfully';
+    } catch (err) {
+      statusEl.textContent = `Submission failed: ${String(err)}`;
+    } finally {
+      submitBtn.disabled = false;
+    }
   };
 
   copyBtn.onclick = async () => {
@@ -472,12 +521,6 @@
     statusEl.textContent = 'Submission copied to clipboard.';
   };
 
-  resetBtn.onclick = () => {
-    originalOrder.forEach(li => list.appendChild(li));
-    updateRanks();
-    statusEl.textContent = 'Order reset.';
-  };
-})();
 </script>
 </body>
 </html>
