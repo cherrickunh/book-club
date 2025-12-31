@@ -40,6 +40,28 @@
       flex:0 0 auto;
     }
 
+    .rankWrap{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex:0 0 auto;
+    }
+
+    .rankInput{
+      width:64px;
+      padding:6px 8px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:#0f1020;
+      color:var(--text);
+      outline:none;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .rankInput:focus{
+      border-color:#6366f1;
+    }
+
     /* Mobile-safe wrapping in flex layout */
     .title{ flex:1; min-width:0; }
     .title strong{ display:block; font-size:15px; font-weight:650; overflow-wrap:anywhere; }
@@ -122,11 +144,33 @@
   <p>Drag books from <strong>most interested</strong> (top) to <strong>least interested</strong> (bottom), then click Submit.</p>
 
   <div class="card">
+    <label for="nameInput" style="display:block; margin-top:6px; color: var(--muted); font-size:13px;">Your name (optional)</label>
+    <input
+      id="nameInput"
+      type="text"
+      placeholder="e.g., Christina"
+      autocomplete="name"
+      style="
+        width:100%;
+        margin-top:6px;
+        padding:10px 12px;
+        border-radius:12px;
+        border:1px solid var(--border);
+        background:#0f1020;
+        color:var(--text);
+        outline:none;
+      "
+    />
+
     <ol id="rankList" class="list">
 
       <!-- 1. American Dirt -->
       <li class="item" draggable="true" data-id="american-dirt">
-        <div class="rank">1</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">1</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>American Dirt</strong><span>Jeanine Cummins</span>
           <div class="links">
@@ -139,7 +183,11 @@
 
       <!-- 2. Beautiful Ugly -->
       <li class="item" draggable="true" data-id="beautiful-ugly">
-        <div class="rank">2</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">2</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>Beautiful Ugly</strong><span>Alice Feeney</span>
           <div class="links">
@@ -150,7 +198,11 @@
 
       <!-- 3. Bury Our Bones in the Midnight Soil -->
       <li class="item" draggable="true" data-id="bury-our-bones-in-the-midnight-soil">
-        <div class="rank">3</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">3</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>Bury Our Bones in the Midnight Soil</strong><span>V. E. Schwab</span>
           <div class="links">
@@ -162,7 +214,11 @@
 
       <!-- Caucasia -->
       <li class="item" draggable="true" data-id="caucasia">
-        <div class="rank">4</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">4</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>Caucasia</strong><span>Danzy Senna</span>
           <div class="links">
@@ -173,7 +229,11 @@
 
       <!-- 4. Cutting for Stone -->
       <li class="item" draggable="true" data-id="cutting-for-stone">
-        <div class="rank">5</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">5</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>Cutting for Stone</strong><span>Abraham Verghese</span>
           <div class="links">
@@ -185,7 +245,11 @@
 
       <!-- 5. The Eyes of Gaza -->
       <li class="item" draggable="true" data-id="eyes-of-gaza">
-        <div class="rank">6</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">6</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>The Eyes of Gaza</strong><span>Plestia Alaqad</span>
           <div class="links">
@@ -196,7 +260,11 @@
 
       <!-- 6. The God Of The Woods -->
       <li class="item" draggable="true" data-id="god-of-the-woods">
-        <div class="rank">7</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">7</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>The God Of The Woods</strong><span>Liz Moore</span>
           <div class="links">
@@ -208,7 +276,11 @@
 
       <!-- Happy Wife -->
       <li class="item" draggable="true" data-id="happy-wife">
-        <div class="rank">8</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">8</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>Happy Wife</strong><span>Meredith Lavender & Kendall Shores</span>
           <div class="links">
@@ -219,7 +291,11 @@
 
       <!-- Homeseeking -->
       <li class="item" draggable="true" data-id="homeseeking">
-        <div class="rank">9</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">9</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>Homeseeking</strong><span>Karissa Chen</span>
           <div class="links">
@@ -230,7 +306,11 @@
 
       <!-- Horse -->
       <li class="item" draggable="true" data-id="horse">
-        <div class="rank">10</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">10</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>Horse</strong><span>Geraldine Brooks</span>
           <div class="links">
@@ -241,7 +321,11 @@
 
       <!-- 7. How to Dodge a Cannonball -->
       <li class="item" draggable="true" data-id="how-to-dodge-a-cannonball">
-        <div class="rank">11</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">11</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>How to Dodge a Cannonball</strong><span>Dennard Dayle</span>
           <div class="links">
@@ -253,7 +337,11 @@
 
       <!-- 8. How to Say Babylon -->
       <li class="item" draggable="true" data-id="how-to-say-babylon">
-        <div class="rank">12</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">12</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>How to Say Babylon</strong><span>Safiya Sinclair</span>
           <div class="links">
@@ -265,7 +353,11 @@
 
       <!-- 9. I Who Have Never Known Men -->
       <li class="item" draggable="true" data-id="i-who-have-never-known-men">
-        <div class="rank">13</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">13</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>I Who Have Never Known Men</strong><span>Jacqueline Harpman</span>
           <div class="links">
@@ -276,7 +368,11 @@
 
       <!-- 10. Isola -->
       <li class="item" draggable="true" data-id="isola">
-        <div class="rank">14</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">14</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>Isola</strong><span>Allegra Goodman</span>
           <div class="links">
@@ -288,7 +384,11 @@
 
       <!-- 11. The Mad Wife -->
       <li class="item" draggable="true" data-id="mad-wife">
-        <div class="rank">15</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">15</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>The Mad Wife</strong><span>Meagan Church</span>
           <div class="links">
@@ -299,7 +399,11 @@
 
       <!-- 12. North Woods -->
       <li class="item" draggable="true" data-id="north-woods">
-        <div class="rank">16</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">16</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>North Woods</strong><span>Daniel Mason</span>
           <div class="links">
@@ -311,7 +415,11 @@
 
       <!-- Pineapple Street -->
       <li class="item" draggable="true" data-id="pineapple-street">
-        <div class="rank">17</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">17</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>Pineapple Street</strong><span>Jenny Jackson</span>
           <div class="links">
@@ -322,7 +430,11 @@
 
       <!-- 13. Run for the Hills -->
       <li class="item" draggable="true" data-id="run-for-the-hills">
-        <div class="rank">18</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">18</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>Run for the Hills</strong><span>Kevin Wilson</span>
           <div class="links">
@@ -334,7 +446,11 @@
 
       <!-- 14. Stone Yard Devotional -->
       <li class="item" draggable="true" data-id="stone-yard-devotional">
-        <div class="rank">19</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">19</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>Stone Yard Devotional</strong><span>Charlotte Wood</span>
           <div class="links">
@@ -346,7 +462,11 @@
 
       <!-- 15. The Sun Does Shine -->
       <li class="item" draggable="true" data-id="sun-does-shine">
-        <div class="rank">20</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">20</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>The Sun Does Shine</strong><span>Anthony Ray Hinton</span>
           <div class="links">
@@ -357,7 +477,11 @@
 
       <!-- 16. Theo of Golden -->
       <li class="item" draggable="true" data-id="theo-of-golden">
-        <div class="rank">21</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">21</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>Theo of Golden</strong><span>Allen Levi</span>
           <div class="links">
@@ -368,7 +492,11 @@
 
       <!-- 17. Twenty Years Later -->
       <li class="item" draggable="true" data-id="twenty-years-later">
-        <div class="rank">22</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">22</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>Twenty Years Later</strong><span>Charlie Donlea</span>
           <div class="links">
@@ -379,7 +507,11 @@
 
       <!-- 18. Victorian Psycho -->
       <li class="item" draggable="true" data-id="victorian-psycho">
-        <div class="rank">23</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">23</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>Victorian Psycho</strong><span>Virginia Feito</span>
           <div class="links">
@@ -392,7 +524,11 @@
 
       <!-- Wellness -->
       <li class="item" draggable="true" data-id="wellness">
-        <div class="rank">24</div><div class="handle">≡</div>
+        <div class="rankWrap">
+          <div class="rank">24</div>
+          <input class="rankInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Set rank" />
+        </div>
+        <div class="handle">≡</div>
         <div class="title">
           <strong>Wellness</strong><span>Nathan Hill</span>
           <div class="links">
@@ -431,7 +567,7 @@
   const copyBtn = document.getElementById('copyBtn'); // now exists if you add the button
   const resetBtn = document.getElementById('resetBtn');
   const submittedBanner = document.getElementById('submittedBanner');
-
+  const nameInput = document.getElementById('nameInput');
 
   const STORAGE_KEY = 'bookclub_ranking_final_google_sheet_v1';
   let dragSrc = null;
@@ -441,6 +577,46 @@
 
   function updateRanks(){
     items().forEach((li, i) => li.querySelector('.rank').textContent = i + 1);
+    syncRankInputs();
+  }
+
+  function clamp(n, min, max){
+    return Math.max(min, Math.min(max, n));
+  } 
+
+  function moveItemToRank(li, targetRank){
+    const all = items();
+    const maxRank = all.length;
+
+    const r = clamp(parseInt(targetRank, 10), 1, maxRank);
+    if (!Number.isFinite(r)) return;
+
+    const targetIndex = r - 1;
+
+    // If it's already there, nothing to do.
+    const currentIndex = all.indexOf(li);
+    if (currentIndex === targetIndex) return;
+
+    // Insert before the element currently at targetIndex (or append if last).
+    const beforeNode = all[targetIndex];
+    if (!beforeNode) {
+      list.appendChild(li);
+    } else {
+      list.insertBefore(li, beforeNode);
+    }
+
+    updateRanks();
+    syncRankInputs(); // keep inputs consistent with the visible ranks
+  }
+
+  function syncRankInputs(){
+    items().forEach((li, i) => {
+      const inp = li.querySelector('.rankInput');
+      if (inp) {
+        inp.value = String(i + 1);
+        inp.max = String(items().length);
+      }
+    });
   }
 
   function linkByLabel(li, label) {
@@ -448,18 +624,33 @@
     return anchors.find(a => a.textContent.trim() === label)?.href || null;
   }
 
+  function getClientId() {
+    const KEY = 'bookclub_client_id';
+    let id = localStorage.getItem(KEY);
+    if (!id) {
+      id = crypto.randomUUID();
+      localStorage.setItem(KEY, id);
+    }
+    return id;
+  }
+
   function serialize() {
+    const name = (nameInput?.value || '').trim();
+
     return {
       submitted_at: new Date().toISOString(),
+      client_id: getClientId(),
+      name: name.length ? name : null,   // optional
       ranking: Array.from(list.children).map((li, i) => ({
         rank: i + 1,
         title: li.querySelector('strong').textContent
       }))
     };
-  } 
+  }
 
 
   function wire(li){
+    // existing drag handlers...
     li.addEventListener('dragstart', e => {
       dragSrc = li;
       li.classList.add('ghost');
@@ -480,6 +671,27 @@
       const before = (e.clientY - rect.top) < rect.height / 2;
       list.insertBefore(dragSrc, before ? li : li.nextSibling);
     });
+
+    // NEW: keypad rank change
+    const rankInput = li.querySelector('.rankInput');
+    if (rankInput) {
+      // Prevent dragging when interacting with the input
+      rankInput.addEventListener('mousedown', e => e.stopPropagation());
+      rankInput.addEventListener('touchstart', e => e.stopPropagation(), { passive: true });
+
+      rankInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          moveItemToRank(li, rankInput.value);
+          rankInput.blur();
+        }
+      });
+
+      rankInput.addEventListener('blur', () => {
+        // Move on blur as well (covers mobile keypad "Done")
+        moveItemToRank(li, rankInput.value);
+      });
+    }
   }
 
   async function submitToGoogleSheet(payload) {
