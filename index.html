@@ -373,7 +373,7 @@
       </li>
 
       <!-- Wellness -->
-      <li class="item" draggable="true" data-id="victorian-psycho">
+      <li class="item" draggable="true" data-id="wellness">
         <div class="rank">24</div><div class="handle">≡</div>
         <div class="title">
           <strong>Wellness</strong><span>Nathan Hill</span>
@@ -387,6 +387,7 @@
 
     <div class="actions">
       <button class="primary" id="submitBtn">Submit</button>
+      <button id="copyBtn" disabled>Copy submission JSON</button>
       <button id="resetBtn">Reset order</button>
     </div>
 
@@ -403,7 +404,7 @@
   const statusEl = document.getElementById('status');
   const outEl = document.getElementById('output');
   const submitBtn = document.getElementById('submitBtn');
-  const copyBtn = document.getElementById('copyBtn');
+  const copyBtn = document.getElementById('copyBtn'); // now exists if you add the button
   const resetBtn = document.getElementById('resetBtn');
 
   const STORAGE_KEY = 'bookclub_ranking_final_google_sheet_v1';
@@ -411,6 +412,7 @@
   const originalOrder = Array.from(list.children);
 
   function items(){ return Array.from(list.children); }
+
   function updateRanks(){
     items().forEach((li, i) => li.querySelector('.rank').textContent = i + 1);
   }
@@ -428,13 +430,11 @@
         id: li.dataset.id,
         title: li.querySelector('strong').textContent,
         author: li.querySelector('span').textContent,
-        goodreads: linkByLabel(li, 'Goodreads'), // guaranteed present
+        goodreads: linkByLabel(li, 'Goodreads'),
         nytimes: linkByLabel(li, 'NYT'),
         amazon: linkByLabel(li, 'Amazon')
       })),
-      meta: {
-        user_agent: navigator.userAgent
-      }
+      meta: { user_agent: navigator.userAgent }
     };
   }
 
@@ -462,32 +462,23 @@
   }
 
   async function submitToGoogleSheet(payload) {
-    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('PASTE_YOUR_WEB_APP_URL_HERE')) {
-      throw new Error('Google Script URL is not set. Paste your Web App URL into GOOGLE_SCRIPT_URL.');
-    }
-
     const res = await fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
-      // keepalive helps some mobile browsers complete the request even if user navigates away quickly
       keepalive: true
     });
 
-    // Apps Script often returns 200 with JSON body
     const text = await res.text();
     let data = null;
     try { data = JSON.parse(text); } catch { /* ignore */ }
 
-    if (!res.ok) {
-      throw new Error(`HTTP ${res.status}: ${text.slice(0, 200)}`);
-    }
-    if (data && data.ok === false) {
-      throw new Error(data.error || 'Server returned ok=false');
-    }
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${text.slice(0, 200)}`);
+    if (data && data.ok === false) throw new Error(data.error || 'Server returned ok=false');
     return data || { ok: true };
   }
 
+  // Attach drag listeners
   items().forEach(wire);
   updateRanks();
 
@@ -498,16 +489,13 @@
     try {
       const payload = serialize();
 
-      // Always show/copy locally too
       outEl.style.display = 'block';
       outEl.textContent = JSON.stringify(payload, null, 2);
-      copyBtn.disabled = false;
 
-      // Save local backup
+      if (copyBtn) copyBtn.disabled = false;
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
 
       await submitToGoogleSheet(payload);
-
       statusEl.textContent = 'Submitted successfully';
     } catch (err) {
       statusEl.textContent = `Submission failed: ${String(err)}`;
@@ -516,11 +504,20 @@
     }
   };
 
-  copyBtn.onclick = async () => {
-    await navigator.clipboard.writeText(outEl.textContent);
-    statusEl.textContent = 'Submission copied to clipboard.';
-  };
+  if (copyBtn) {
+    copyBtn.onclick = async () => {
+      await navigator.clipboard.writeText(outEl.textContent || '');
+      statusEl.textContent = 'Submission copied to clipboard.';
+    };
+  }
 
+  resetBtn.onclick = () => {
+    originalOrder.forEach(li => list.appendChild(li));
+    updateRanks();
+    statusEl.textContent = 'Order reset.';
+  };
+})();
 </script>
+
 </body>
 </html>
