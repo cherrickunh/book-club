@@ -485,21 +485,21 @@
   }
 
   async function submitToGoogleSheet(payload) {
+    // Send as text/plain to avoid CORS preflight
+    // Use no-cors so the browser doesn't block on missing CORS response headers.
     const res = await fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload),
       keepalive: true
     });
 
-    const text = await res.text();
-    let data = null;
-    try { data = JSON.parse(text); } catch { /* ignore */ }
-
-    if (!res.ok) throw new Error(`HTTP ${res.status}: ${text.slice(0, 200)}`);
-    if (data && data.ok === false) throw new Error(data.error || 'Server returned ok=false');
-    return data || { ok: true };
+    // In no-cors mode, the response is "opaque" (you cannot read it).
+    // If fetch() didn't throw, the request was sent.
+    return { ok: true, opaque: true };
   }
+
 
   // Attach drag listeners
   items().forEach(wire);
@@ -508,7 +508,9 @@
   submitBtn.onclick = async () => {
     submitBtn.disabled = true;
     statusEl.textContent = 'Submitting...';
-    submittedBanner.hidden = true;
+    submittedBanner.hidden = false;
+    statusEl.textContent = 'Submitted!';
+
 
     try {
       const payload = serialize();
